@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using ObjectValidator.Entities;
 
 namespace ObjectValidator.Interfaces
 {

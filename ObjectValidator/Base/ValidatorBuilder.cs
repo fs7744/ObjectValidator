@@ -8,22 +8,26 @@ namespace ObjectValidator.Base
 {
     public class ValidatorBuilder<T> : IValidatorBuilder<T>
     {
-        private ObservableCollection<IValidateRuleBuilder> m_Builders
-          = new ObservableCollection<IValidateRuleBuilder>();
+        public ObservableCollection<IValidateRuleBuilder> Builders { get; set; }
+
+        public ValidatorBuilder()
+        {
+            Builders = new ObservableCollection<IValidateRuleBuilder>();
+        }
 
         public IValidator Build()
         {
             var result = Container.Resolve<IValidatorSetter>();
-            result.SetRules(m_Builders.Select(i => i.Build()));
+            result.SetRules(Builders.Select(i => i.Build()));
             return result;
         }
 
-        public IRuleBuilder<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
+        public IFluentRuleBuilder<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             ParamHelper.CheckParamNull(expression, "expression", "Can't be null");
             var builder = Container.Resolve<IRuleBuilder<T, TProperty>>();
             builder.SetValueGetter(expression);
-            m_Builders.Add(builder);
+            Builders.Add(builder as IValidateRuleBuilder);
             return builder;
         }
 
@@ -41,9 +45,9 @@ namespace ObjectValidator.Base
                     item.RuleSet = upRuleSet;
                 }
             });
-            m_Builders.CollectionChanged += updateRuleSet;
+            Builders.CollectionChanged += updateRuleSet;
             action(this);
-            m_Builders.CollectionChanged -= updateRuleSet;
+            Builders.CollectionChanged -= updateRuleSet;
         }
     }
 }

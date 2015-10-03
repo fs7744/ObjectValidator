@@ -72,7 +72,7 @@ namespace UnitTest.Base
             v.SetValueGetter(i => i.Failure.Error);
             Assert.AreEqual("Failure.Error", v.ValueName);
             var name = "go";
-            v.ValueName  = name;
+            v.ValueName = name;
             Assert.AreEqual(name, v.ValueName);
         }
 
@@ -94,10 +94,10 @@ namespace UnitTest.Base
             var next = v.ThenRuleFor(i => i.Failure);
             Assert.IsNotNull(next);
             Assert.AreNotEqual(v, next);
-            Assert.IsNotNull(next.ValueGetter);
+            Assert.IsNotNull((next as IRuleBuilder<TestRuleBuilderClass, ValidateFailure>).ValueGetter);
             var builder = next as IRuleMessageBuilder<TestRuleBuilderClass, ValidateFailure>;
             Assert.IsNotNull(builder);
-            Assert.AreEqual("Failure", builder.ValueName);
+            Assert.AreEqual("Failure", (builder as IValidateRuleBuilder).ValueName);
         }
 
         [Test]

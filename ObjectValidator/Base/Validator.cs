@@ -1,4 +1,5 @@
 ﻿using ObjectValidator.Common;
+using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,11 @@ namespace ObjectValidator.Base
         public IValidateResult Validate(ValidateContext context)
         {
             ParamHelper.CheckParamNull(context, "context", "Can't be null");
+            var list = context.RuleSetList;
+            if (!list.IsEmptyOrNull())
+            {
+                context.RuleSetList = list.Where(i => !string.IsNullOrEmpty(i)).Select(i => i.ToUpper()).ToArray();
+            }
             var rules = m_Rules.Where(i => context.RuleSelector.CanExecute(i, context)).ToArray();
             var result = Container.Resolve<IValidateResult>();
             if (!rules.IsEmptyOrNull())

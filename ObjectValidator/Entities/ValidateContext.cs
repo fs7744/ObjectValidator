@@ -1,8 +1,7 @@
-﻿using ObjectValidator.Entities;
-using ObjectValidator.Interfaces;
+﻿using ObjectValidator.Interfaces;
 using System.Collections.Generic;
 
-namespace ObjectValidator
+namespace ObjectValidator.Entities
 {
     public class ValidateContext
     {

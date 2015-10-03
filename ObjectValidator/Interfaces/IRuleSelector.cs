@@ -1,4 +1,6 @@
-﻿namespace ObjectValidator.Interfaces
+﻿using ObjectValidator.Entities;
+
+namespace ObjectValidator.Interfaces
 {
     public interface IRuleSelector
     {

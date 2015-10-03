@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ObjectValidator.Entities;
+using System;
 
 namespace ObjectValidator.Interfaces
 {

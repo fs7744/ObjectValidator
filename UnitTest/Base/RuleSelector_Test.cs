@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using ObjectValidator;
 using ObjectValidator.Base;
+using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace ObjectValidator.Entities
+﻿namespace ObjectValidator
 {
     public enum ValidateOption
     {

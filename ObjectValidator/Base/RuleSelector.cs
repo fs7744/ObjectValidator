@@ -1,4 +1,5 @@
 ﻿using ObjectValidator.Common;
+using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System.Linq;
 

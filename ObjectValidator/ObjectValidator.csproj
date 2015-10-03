@@ -54,6 +54,7 @@
     <Compile Include="Entities\ValidateFailure.cs" />
     <Compile Include="Entities\ValidateOption.cs" />
     <Compile Include="Entities\ValidateResult.cs" />
+    <Compile Include="Interfaces\IFluentRuleBuilder.cs" />
     <Compile Include="Interfaces\IRuleBuilder.cs" />
     <Compile Include="Interfaces\IRuleMessageBuilder.cs" />
     <Compile Include="Interfaces\IRuleSelector.cs" />

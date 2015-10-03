@@ -1,4 +1,5 @@
 ﻿using ObjectValidator.Common;
+using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Reflection;
 
 namespace ObjectValidator.Base
 {
-    public class RuleBuilder<T, TValue> : IRuleBuilder<T, TValue>, IRuleMessageBuilder<T, TValue>
+    public class RuleBuilder<T, TValue> : IRuleBuilder<T, TValue>
     {
         public string RuleSet { get; set; }
 
@@ -54,10 +55,10 @@ namespace ObjectValidator.Base
             ValueGetter = Expression.Lambda<Func<object, TValue>>(exp, p).Compile();
         }
 
-        public IRuleBuilder<T, TProperty> ThenRuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
+        public IFluentRuleBuilder<T, TProperty> ThenRuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var builder = Utils.RuleFor(expression);
-            NextRuleBuilder = builder;
+            NextRuleBuilder = builder as IValidateRuleBuilder;
             return builder;
         }
 
@@ -68,6 +69,7 @@ namespace ObjectValidator.Base
             rule.Error = Error;
             rule.ValidateFunc = ValidateFunc;
             rule.Condition = Condition;
+            rule.RuleSet = RuleSet;
             var nextBuilder = NextRuleBuilder;
             if (nextBuilder != null)
                 rule.NextRule = nextBuilder.Build();

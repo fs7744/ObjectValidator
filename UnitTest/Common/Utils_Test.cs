@@ -29,7 +29,7 @@ namespace UnitTest.Common
             Assert.IsNotNull(rule.ValueGetter);
             var builder = rule as IRuleMessageBuilder<ValidateFailure, string>;
             Assert.IsNotNull(builder);
-            Assert.AreEqual("Error", builder.ValueName);
+            Assert.AreEqual("Error", (builder as IValidateRuleBuilder).ValueName);
         }
     }
 }
