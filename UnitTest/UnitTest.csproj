@@ -87,6 +87,8 @@
     <Compile Include="Base\RuleBuilder_Test.cs" />
     <Compile Include="Base\RuleSelector_Test.cs" />
     <Compile Include="Base\ValidateRule_Test.cs" />
+    <Compile Include="Base\ValidatorBuilder_Test.cs" />
+    <Compile Include="Base\Validator_Test.cs" />
     <Compile Include="Common\EnumerableHelper_Test.cs" />
     <Compile Include="Common\ObservableCollection_Test.cs" />
     <Compile Include="Common\Utils_Test.cs" />

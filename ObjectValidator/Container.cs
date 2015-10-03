@@ -18,6 +18,8 @@ namespace ObjectValidator
             builder.Register(c => new ValidateContext() { RuleSelector = c.Resolve<IRuleSelector>() });
             builder.RegisterType<ValidateRule>().As<IValidateRule>().InstancePerDependency();
             builder.RegisterType<ValidateResult>().As<IValidateResult>().InstancePerDependency();
+            builder.RegisterGeneric(typeof(ValidatorBuilder<>)).As(typeof(IValidatorBuilder<>)).InstancePerDependency();
+            builder.RegisterType<Validator>().As<IValidatorSetter>().InstancePerDependency();
 
             var container = builder.Build();
             CurrentScope = container.BeginLifetimeScope();
