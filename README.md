@@ -1,7 +1,7 @@
 # ObjectValidator
 C# Object Validator, learn from FluentValidation
 
-simple example :
+## simple example :
 
 ```Csharp
 var builder = Validation.NewValidatorBuilder<Student>();
@@ -24,4 +24,19 @@ var result = v.Validate(context);
 Assert.IsNotNull(result);
 Assert.True(result.IsValid);
 Assert.True(result.Failures.Count == 0);
+
+student = new Student() { Age = 23, Name = string.Empty };
+context = Validation.CreateContext(student);
+result = v.Validate(context);
+Assert.IsNotNull(result);
+Assert.False(result.IsValid);
+Assert.True(result.Failures.Count == 1);
+Assert.AreEqual(23, result.Failures[0].Value);
+Assert.AreEqual("student age", result.Failures[0].Name);
+Assert.AreEqual("not student", result.Failures[0].Error);
+```
+## Nuget
+
+```
+Install-Package ObjectValidator
 ```
