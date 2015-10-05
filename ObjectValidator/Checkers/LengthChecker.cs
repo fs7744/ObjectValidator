@@ -1,5 +1,4 @@
-﻿using ObjectValidator.Entities;
-using ObjectValidator.Interfaces;
+﻿using ObjectValidator.Interfaces;
 using System;
 
 namespace ObjectValidator.Checkers
@@ -20,25 +19,15 @@ namespace ObjectValidator.Checkers
             m_Max = max;
         }
 
-        public override IRuleBuilder<T, string> SetValidateFunc(IRuleBuilder<T, string> builder)
+        public override IValidateResult Validate(IValidateResult result, string value, string name, string error)
         {
-            builder.ValidateFunc = (context, name, error) =>
+            var len = string.IsNullOrEmpty(value) ? 0 : value.Length;
+            if ((m_Max != -1 && m_Max < len) || m_Min > len)
             {
-                var value = builder.ValueGetter(context.ValidateObject);
-                var result = Container.Resolve<IValidateResult>();
-                var len = string.IsNullOrEmpty(value) ? 0 : value.Length;
-                if ((m_Max != -1 && m_Max < len) || m_Min > len)
-                {
-                    result.Failures.Add(new ValidateFailure()
-                    {
-                        Name = name,
-                        Value = value,
-                        Error = error ?? string.Format("The length {0} is not between {1} and {2}", len, m_Min, m_Max)
-                    });
-                }
-                return result;
-            };
-            return builder;
+                AddFailure(result, name, value,
+                    error ?? string.Format("The length {0} is not between {1} and {2}", len, m_Min, m_Max));
+            }
+            return result;
         }
     }
 }

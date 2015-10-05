@@ -1,5 +1,4 @@
 ﻿using ObjectValidator.Common;
-using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
 
@@ -14,24 +13,13 @@ namespace ObjectValidator.Checkers
             m_EqualEalue = value;
         }
 
-        public override IRuleBuilder<T, TProperty> SetValidateFunc(IRuleBuilder<T, TProperty> builder)
+        public override IValidateResult Validate(IValidateResult result, TProperty value, string name, string error)
         {
-            builder.ValidateFunc = (context, name, error) =>
+            if (!Compare(m_EqualEalue, value))
             {
-                var value = builder.ValueGetter(context.ValidateObject);
-                var result = Container.Resolve<IValidateResult>();
-                if (Compare(m_EqualEalue, value))
-                {
-                    result.Failures.Add(new ValidateFailure()
-                    {
-                        Name = name,
-                        Value = value,
-                        Error = error ?? string.Format("The value is equal {0}", m_EqualEalue)
-                    });
-                }
-                return result;
-            };
-            return builder;
+                AddFailure(result, name, value, error ?? string.Format("The value is equal {0}", m_EqualEalue));
+            }
+            return result;
         }
 
         protected bool Compare(object comparisonValue, object propertyValue)

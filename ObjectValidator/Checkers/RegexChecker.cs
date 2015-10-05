@@ -1,5 +1,4 @@
-﻿using ObjectValidator.Entities;
-using ObjectValidator.Interfaces;
+﻿using ObjectValidator.Interfaces;
 using System.Text.RegularExpressions;
 
 namespace ObjectValidator.Checkers
@@ -21,24 +20,13 @@ namespace ObjectValidator.Checkers
         {
         }
 
-        public override IRuleBuilder<T, string> SetValidateFunc(IRuleBuilder<T, string> builder)
+        public override IValidateResult Validate(IValidateResult result, string value, string name, string error)
         {
-            builder.ValidateFunc = (context, name, error) =>
+            if (string.IsNullOrEmpty(value) || !m_Regex.IsMatch(value))
             {
-                var value = builder.ValueGetter(context.ValidateObject);
-                var result = Container.Resolve<IValidateResult>();
-                if (!m_Regex.IsMatch(value))
-                {
-                    result.Failures.Add(new ValidateFailure()
-                    {
-                        Name = name,
-                        Value = value,
-                        Error = error ?? "The value no match regex"
-                    });
-                }
-                return result;
-            };
-            return builder;
+                AddFailure(result, name, value, error ?? "The value no match regex");
+            }
+            return result;
         }
     }
 }

@@ -4,6 +4,9 @@ C# Object Validator, learn from FluentValidation
 ## simple example :
 
 ```Csharp
+
+Container.Init(); // Only need init in your app once
+
 var builder = Validation.NewValidatorBuilder<Student>();
 builder.RuleSet("A", b =>
 {

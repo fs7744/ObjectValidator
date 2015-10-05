@@ -1,5 +1,4 @@
 ﻿using ObjectValidator.Common;
-using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
 
@@ -15,24 +14,13 @@ namespace ObjectValidator.Checkers
             m_MustBeTrue = func;
         }
 
-        public override IRuleBuilder<T, TProperty> SetValidateFunc(IRuleBuilder<T, TProperty> builder)
+        public override IValidateResult Validate(IValidateResult result, TProperty value, string name, string error)
         {
-            builder.ValidateFunc = (context, name, error) =>
+            if (!m_MustBeTrue(value))
             {
-                var value = builder.ValueGetter(context.ValidateObject);
-                var result = Container.Resolve<IValidateResult>();
-                if (!m_MustBeTrue(value))
-                {
-                    result.Failures.Add(new ValidateFailure()
-                    {
-                        Name = name,
-                        Value = value,
-                        Error = error
-                    });
-                }
-                return result;
-            };
-            return builder;
+                AddFailure(result, name, value, error);
+            }
+            return result;
         }
     }
 }
