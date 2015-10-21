@@ -43,3 +43,7 @@ Assert.AreEqual("not student", result.Failures[0].Error);
 ```
 Install-Package ObjectValidator
 ```
+
+## 剖析实现思路 (analyse how to implementation Code)
+
+http://www.cnblogs.com/fs7744/p/4892126.html 
