@@ -6,7 +6,7 @@ namespace ObjectValidator.Checkers
 {
     public class MustChecker<T, TProperty> : BaseChecker<T, TProperty>
     {
-        private Func<TProperty, bool> m_MustBeTrue;
+        protected Func<TProperty, bool> m_MustBeTrue;
 
         public MustChecker(Func<TProperty, bool> func)
         {

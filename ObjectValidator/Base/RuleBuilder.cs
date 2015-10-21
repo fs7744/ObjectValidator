@@ -24,8 +24,11 @@ namespace ObjectValidator.Base
 
         public Func<ValidateContext, string, string, IValidateResult> ValidateFunc { get; set; }
 
+        public Expression<Func<T, TValue>> ValueExpression { get; protected set; }
+
         public void SetValueGetter(Expression<Func<T, TValue>> expression)
         {
+            ValueExpression = expression;
             var stack = new Stack<MemberInfo>();
             var memberExp = expression.Body as MemberExpression;
             while (memberExp != null)

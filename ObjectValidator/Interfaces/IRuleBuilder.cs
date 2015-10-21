@@ -7,6 +7,8 @@ namespace ObjectValidator.Interfaces
     {
         Func<object, TValue> ValueGetter { get; }
 
+        Expression<Func<T, TValue>> ValueExpression { get; }
+
         void SetValueGetter(Expression<Func<T, TValue>> expression);
     }
 }
