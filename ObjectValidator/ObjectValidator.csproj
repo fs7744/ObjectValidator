@@ -43,12 +43,14 @@
     <Compile Include="Base\Validator.cs" />
     <Compile Include="Base\ValidatorBuilder.cs" />
     <Compile Include="Checkers\BaseChecker.cs" />
+    <Compile Include="Checkers\BetweenChecker.cs" />
     <Compile Include="Checkers\EqualChecker.cs" />
     <Compile Include="Checkers\LengthChecker.cs" />
     <Compile Include="Checkers\MustNotChecker.cs" />
     <Compile Include="Checkers\NotEqualChecker.cs" />
     <Compile Include="Checkers\NotNullChecker.cs" />
     <Compile Include="Checkers\MustChecker.cs" />
+    <Compile Include="Checkers\NotNullOrEmptyChecker.cs" />
     <Compile Include="Checkers\RegexChecker.cs" />
     <Compile Include="Common\Comparer.cs" />
     <Compile Include="Common\Utils.cs" />
