@@ -2,8 +2,6 @@
 using ObjectValidator.Common;
 using ObjectValidator.Interfaces;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ObjectValidator
@@ -64,27 +62,27 @@ namespace ObjectValidator
             return new RegexChecker<T>(EmailRegex).SetValidate(builder);
         }
 
-        public static IRuleMessageBuilder<T, string> NotNullOrEmpty<T, string>(this IFluentRuleBuilder<T, string> builder)
+        public static IRuleMessageBuilder<T, string> NotNullOrEmpty<T>(this IFluentRuleBuilder<T, string> builder)
         {
             return new NotNullOrEmptyChecker<T>().SetValidate(builder);
         }
 
-        public static IRuleMessageBuilder<T, int> Between<T, int>(this IFluentRuleBuilder<T, int> builder, int min, int max)
+        public static IRuleMessageBuilder<T, int> Between<T>(this IFluentRuleBuilder<T, int> builder, int min, int max)
         {
             return new BetweenIntChecker<T>(min, max).SetValidate(builder);
         }
 
-        public static IRuleMessageBuilder<T, double> Between<T, double>(this IFluentRuleBuilder<T, double> builder, double min, double max)
+        public static IRuleMessageBuilder<T, double> Between<T>(this IFluentRuleBuilder<T, double> builder, double min, double max)
         {
             return new BetweenDoubleChecker<T>(min, max).SetValidate(builder);
         }
 
-        public static IRuleMessageBuilder<T, decimal> Between<T, decimal>(this IFluentRuleBuilder<T, decimal> builder, decimal min, decimal max)
+        public static IRuleMessageBuilder<T, decimal> Between<T>(this IFluentRuleBuilder<T, decimal> builder, decimal min, decimal max)
         {
             return new BetweenDecimalChecker<T>(min, max).SetValidate(builder);
         }
 
-        public static IRuleMessageBuilder<T, long> Between<T, long>(this IFluentRuleBuilder<T, long> builder, long min, long max)
+        public static IRuleMessageBuilder<T, long> Between<T>(this IFluentRuleBuilder<T, long> builder, long min, long max)
         {
             return new BetweenLongChecker<T>(min, max).SetValidate(builder);
         }
@@ -175,25 +173,25 @@ namespace ObjectValidator
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Email();
         }
 
-        public static IRuleMessageBuilder<T, int> Between<T, int>(this IRuleMessageBuilder<T, int> builder, int min, int max)
+        public static IRuleMessageBuilder<T, int> Between<T>(this IRuleMessageBuilder<T, int> builder, int min, int max)
         {
             var ruleBuilder = builder as IRuleBuilder<T, int>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Between(min, max);
         }
 
-        public static IRuleMessageBuilder<T, double> Between<T, double>(this IRuleMessageBuilder<T, double> builder, double min, double max)
+        public static IRuleMessageBuilder<T, double> Between<T>(this IRuleMessageBuilder<T, double> builder, double min, double max)
         {
             var ruleBuilder = builder as IRuleBuilder<T, double>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Between(min, max);
         }
 
-        public static IRuleMessageBuilder<T, decimal> Between<T, decimal>(this IRuleMessageBuilder<T, decimal> builder, decimal min, decimal max)
+        public static IRuleMessageBuilder<T, decimal> Between<T>(this IRuleMessageBuilder<T, decimal> builder, decimal min, decimal max)
         {
             var ruleBuilder = builder as IRuleBuilder<T, decimal>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Between(min, max);
         }
 
-        public static IRuleMessageBuilder<T, long> Between<T, long>(this IRuleMessageBuilder<T, long> builder, long min, long max)
+        public static IRuleMessageBuilder<T, long> Between<T>(this IRuleMessageBuilder<T, long> builder, long min, long max)
         {
             var ruleBuilder = builder as IRuleBuilder<T, long>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Between(min, max);
