@@ -5,11 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Linq;
 
 namespace ObjectValidator.Base
 {
     public class RuleBuilder<T, TValue> : IRuleBuilder<T, TValue>
     {
+        public RuleBuilder()
+        {
+            NextRuleBuilderList = new List<IValidateRuleBuilder>();
+        }
+
         public string RuleSet { get; set; }
 
         public Func<object, TValue> ValueGetter { get; protected set; }
@@ -18,7 +24,7 @@ namespace ObjectValidator.Base
 
         public string Error { get; set; }
 
-        public IValidateRuleBuilder NextRuleBuilder { get; set; }
+        public List<IValidateRuleBuilder> NextRuleBuilderList { get; set; }
 
         public Func<ValidateContext, bool> Condition { get; set; }
 
@@ -61,7 +67,7 @@ namespace ObjectValidator.Base
         public IFluentRuleBuilder<T, TProperty> ThenRuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var builder = Utils.RuleFor(expression);
-            NextRuleBuilder = builder as IValidateRuleBuilder;
+            NextRuleBuilderList.Add(builder as IValidateRuleBuilder);
             return builder;
         }
 
@@ -73,9 +79,10 @@ namespace ObjectValidator.Base
             rule.ValidateFunc = ValidateFunc;
             rule.Condition = Condition;
             rule.RuleSet = RuleSet;
-            var nextBuilder = NextRuleBuilder;
-            if (nextBuilder != null)
-                rule.NextRule = nextBuilder.Build();
+            if (NextRuleBuilderList != null)
+            {
+                rule.NextRuleList = NextRuleBuilderList.Where(i => i != null).Select(i => i.Build()).ToList();
+            }
             return rule;
         }
     }

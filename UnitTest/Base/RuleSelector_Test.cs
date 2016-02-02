@@ -16,7 +16,7 @@ namespace UnitTest.Base
 
             public string Error { get; set; }
 
-            public IValidateRule NextRule { get; set; }
+            public List<IValidateRule> NextRuleList { get; set; }
 
             public string RuleSet { get; set; }
 

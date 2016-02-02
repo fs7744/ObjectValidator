@@ -46,7 +46,7 @@ namespace UnitTest.Base
             Assert.AreEqual(1, result.Failures.Count);
             Assert.AreEqual("a", result.Failures[0].Name);
 
-            rule.NextRule = new ValidateRule() { ValueName = "b", ValidateFunc = failed };
+            rule.NextRuleList.Add(new ValidateRule() { ValueName = "b", ValidateFunc = failed });
             result = rule.ValidateByFunc(new ValidateContext() { Option = ValidateOption.StopOnFirstFailure });
             Assert.IsNotNull(result);
             Assert.AreEqual(false, result.IsValid);
@@ -64,7 +64,7 @@ namespace UnitTest.Base
             {
                 return new ValidateResult();
             };
-            rule.NextRule.ValidateFunc = successed;
+            rule.NextRuleList[0].ValidateFunc = successed;
             result = rule.ValidateByFunc(new ValidateContext() { Option = ValidateOption.StopOnFirstFailure });
             Assert.IsNotNull(result);
             Assert.AreEqual(false, result.IsValid);
@@ -88,7 +88,7 @@ namespace UnitTest.Base
             Assert.AreEqual(true, result.IsValid);
             Assert.AreEqual(0, result.Failures.Count);
 
-            rule.NextRule.ValidateFunc = failed;
+            rule.NextRuleList[0].ValidateFunc = failed;
             result = rule.ValidateByFunc(new ValidateContext() { Option = ValidateOption.StopOnFirstFailure });
             Assert.IsNotNull(result);
             Assert.AreEqual(false, result.IsValid);
@@ -101,7 +101,7 @@ namespace UnitTest.Base
             Assert.AreEqual(1, result.Failures.Count);
             Assert.AreEqual("b", result.Failures[0].Name);
 
-            rule.NextRule = null;
+            rule.NextRuleList.Clear();
             result = rule.ValidateByFunc(new ValidateContext() { Option = ValidateOption.Continue });
             Assert.AreEqual(true, result.IsValid);
             Assert.AreEqual(0, result.Failures.Count);

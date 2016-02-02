@@ -1,5 +1,6 @@
 ﻿using ObjectValidator.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace ObjectValidator.Interfaces
 {
@@ -13,7 +14,7 @@ namespace ObjectValidator.Interfaces
 
         Func<ValidateContext, bool> Condition { get; set; }
 
-        IValidateRuleBuilder NextRuleBuilder { get; set; }
+        List<IValidateRuleBuilder> NextRuleBuilderList { get; set; }
 
         Func<ValidateContext, string, string, IValidateResult> ValidateFunc { get; set; }
 

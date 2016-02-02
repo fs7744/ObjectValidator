@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using ObjectValidator;
+using System.Collections.Generic;
 
 namespace UnitTest
 {
@@ -23,6 +24,8 @@ namespace UnitTest
             public int Age { get; set; }
 
             public string Name { get; set; }
+
+            public IEnumerable<string> AA { get; set; }
         }
 
         [Test]

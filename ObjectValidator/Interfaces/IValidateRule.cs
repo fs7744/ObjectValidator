@@ -1,5 +1,6 @@
 ﻿using ObjectValidator.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace ObjectValidator.Interfaces
 {
@@ -7,7 +8,7 @@ namespace ObjectValidator.Interfaces
     {
         string RuleSet { get; set; }
 
-        IValidateRule NextRule { get; set; }
+        List<IValidateRule> NextRuleList { get; set; }
 
         string ValueName { get; set; }
 

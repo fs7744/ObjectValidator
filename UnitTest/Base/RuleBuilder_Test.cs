@@ -111,7 +111,7 @@ namespace UnitTest.Base
             var next = v.ThenRuleFor(i => i.Failure);
             var r = v.Build();
             Assert.IsNotNull(r);
-            Assert.IsNotNull(r.NextRule);
+            Assert.IsNotNull(r.NextRuleList);
             Assert.IsNotNull(r.ValidateFunc);
             Assert.IsNotNull(r.Condition);
             Assert.AreEqual(v.ValidateFunc, r.ValidateFunc);

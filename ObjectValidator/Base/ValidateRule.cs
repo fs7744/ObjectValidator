@@ -2,12 +2,18 @@
 using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace ObjectValidator.Base
 {
     public class ValidateRule : IValidateRule
     {
-        public IValidateRule NextRule { get; set; }
+        public ValidateRule()
+        {
+            NextRuleList = new List<IValidateRule>();
+        }
+
+        public List<IValidateRule> NextRuleList { get; set; }
 
         public string RuleSet { get; set; }
 
@@ -38,15 +44,25 @@ namespace ObjectValidator.Base
         public IValidateResult ValidateByFunc(ValidateContext context)
         {
             IValidateResult result = ValidateFunc(context, ValueName, Error);
-            var nextRule = NextRule;
-            if (nextRule != null
-                && (result.IsValid || context.Option == ValidateOption.Continue))
-            {
-                var nextResult = nextRule.Validate(context);
-                result.Merge(nextResult.Failures);
-            }
+            if (NextRuleList.IsEmptyOrNull() || (!result.IsValid && context.Option != ValidateOption.Continue)) return result;
+
+            ValidateNextRuleList(context, result);
 
             return result;
+        }
+
+        private void ValidateNextRuleList(ValidateContext context, IValidateResult result)
+        {
+            foreach (var nextRule in NextRuleList)
+            {
+                if (result.IsValid || context.Option == ValidateOption.Continue)
+                {
+                    var nextResult = nextRule.Validate(context);
+                    result.Merge(nextResult.Failures);
+                }
+                else
+                    break;
+            }
         }
     }
 }
