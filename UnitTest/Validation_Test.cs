@@ -25,7 +25,7 @@ namespace UnitTest
 
             public string Name { get; set; }
 
-            public IEnumerable<string> AA { get; set; }
+            public List<int> IntList { get; set; }
         }
 
         [Test]
@@ -101,6 +101,37 @@ namespace UnitTest
             Assert.AreEqual("v", result.Failures[1].Value);
             Assert.AreEqual("student name", result.Failures[1].Name);
             Assert.AreEqual("not vf", result.Failures[1].Error);
+        }
+
+        [Test]
+        public void Test_Validate_AllMust()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleSet("A", b =>
+            {
+                b.RuleFor(i => i.IntList)
+                        .AllMust(i => i >= 0 && i <= 18)
+                        .OverrideError("not student")
+                    .ThenRuleFor(i => i.Name)
+                        .Must(i => !string.IsNullOrWhiteSpace(i))
+                        .OverrideName("student name")
+                        .OverrideError("no name");
+            });
+            var v = builder.Build();
+
+            var student = new Student() { Age = 13, Name = "v", IntList = new List<int> { 0, 2, 4 } };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.IsNotNull(result);
+            Assert.True(result.IsValid);
+            Assert.True(result.Failures.Count == 0);
+
+            student = new Student() { Age = 13, Name = "v", IntList = new List<int> { 0, 2, 4, 23 } };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.IsNotNull(result);
+            Assert.False(result.IsValid);
+            Assert.True(result.Failures.Count == 1);
         }
     }
 }

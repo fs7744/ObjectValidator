@@ -23,7 +23,7 @@ namespace ObjectValidator.Checkers
         {
             if (m_Min <= value && m_Max >= value)
             {
-                AddFailure(result, name, value, error ?? 
+                AddFailure(result, name, value, error ??
                     string.Format("The value is not between {1} and {2}", m_Min, m_Max));
             }
             return result;

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ObjectValidator
 {
-    public static class Syntax
+    public static partial class Syntax
     {
         public const string EmailRegex = @"[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?";
 
