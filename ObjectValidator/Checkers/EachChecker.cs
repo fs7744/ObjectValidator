@@ -1,9 +1,8 @@
-﻿using System;
+﻿using ObjectValidator.Common;
+using ObjectValidator.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ObjectValidator.Interfaces;
-using ObjectValidator.Common;
 
 namespace ObjectValidator.Checkers
 {

@@ -1,7 +1,6 @@
 ﻿using ObjectValidator.Base;
 using ObjectValidator.Checkers;
 using ObjectValidator.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace ObjectValidator
@@ -14,10 +13,10 @@ namespace ObjectValidator
         {
             var checker = new EachChecker<T, TProperty>();
             checker.SetValidate(builder);
-             var a = new CollectionRuleBuilder<T, TProperty>();
+            var a = new CollectionRuleBuilder<T, TProperty>();
             a.EachChecker = checker;
             var b = Container.Resolve<IRuleBuilder<TProperty, TProperty>>();
-            b.SetValueGetter(i=> i);
+            b.SetValueGetter(i => i);
             a.ElementRuleBuilderList.Add(b);
             var build = builder as IRuleValueGetterBuilder<T, IEnumerable<TProperty>>;
             build.NextRuleBuilderList.Add(a);

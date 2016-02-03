@@ -1,13 +1,11 @@
-﻿using ObjectValidator.Interfaces;
-using System;
+﻿using ObjectValidator.Checkers;
+using ObjectValidator.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ObjectValidator.Checkers;
 
 namespace ObjectValidator.Base
 {
-    public class CollectionRuleBuilder<T, TValue> :  RuleBuilder<T, IEnumerable< TValue>> , ICollectionRuleBuilder<T, TValue>
+    public class CollectionRuleBuilder<T, TValue> : RuleBuilder<T, IEnumerable<TValue>>, ICollectionRuleBuilder<T, TValue>
     {
         public CollectionRuleBuilder()
         {

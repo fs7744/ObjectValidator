@@ -67,6 +67,11 @@ namespace ObjectValidator
             return new NotNullOrEmptyChecker<T>().SetValidate(builder);
         }
 
+        public static IRuleMessageBuilder<T, string> NotNullOrWhiteSpace<T>(this IFluentRuleBuilder<T, string> builder)
+        {
+            return new NotNullOrWhiteSpaceChecker<T>().SetValidate(builder);
+        }
+
         public static IRuleMessageBuilder<T, int> Between<T>(this IFluentRuleBuilder<T, int> builder, int min, int max)
         {
             return new BetweenIntChecker<T>(min, max).SetValidate(builder);
