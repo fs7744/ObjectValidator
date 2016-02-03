@@ -25,7 +25,7 @@ namespace ObjectValidator.Base
 
         public Func<ValidateContext, string, string, IValidateResult> ValidateFunc { get; set; }
 
-        public IValidateResult Validate(ValidateContext context)
+        public virtual IValidateResult Validate(ValidateContext context)
         {
             ParamHelper.CheckParamNull(ValidateFunc, "ValidateFunc", "Can't be null");
             ParamHelper.CheckParamNull(context, "context", "Can't be null");

@@ -37,14 +37,16 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\CollectionRuleBuilder.cs" />
+    <Compile Include="Base\CollectionValidateRule.cs" />
     <Compile Include="Base\RuleBuilder.cs" />
     <Compile Include="Base\RuleSelector.cs" />
     <Compile Include="Base\ValidateRule.cs" />
     <Compile Include="Base\Validator.cs" />
     <Compile Include="Base\ValidatorBuilder.cs" />
-    <Compile Include="Checkers\AllMustChecker.cs" />
     <Compile Include="Checkers\BaseChecker.cs" />
     <Compile Include="Checkers\BetweenChecker.cs" />
+    <Compile Include="Checkers\EachChecker.cs" />
     <Compile Include="Checkers\EqualChecker.cs" />
     <Compile Include="Checkers\LengthChecker.cs" />
     <Compile Include="Checkers\MustNotChecker.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="Entities\ValidateFailure.cs" />
     <Compile Include="Entities\ValidateOption.cs" />
     <Compile Include="Entities\ValidateResult.cs" />
+    <Compile Include="Interfaces\ICollectionRuleBuilder.cs" />
     <Compile Include="Interfaces\IFluentRuleBuilder.cs" />
     <Compile Include="Interfaces\IRuleBuilder.cs" />
     <Compile Include="Interfaces\IRuleMessageBuilder.cs" />

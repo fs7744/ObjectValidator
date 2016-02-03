@@ -28,6 +28,16 @@ namespace UnitTest
             public List<int> IntList { get; set; }
         }
 
+        public class ADStudent
+        {
+            public List<LStudent> StudentList { get; set; }
+        }
+
+        public class LStudent
+        {
+            public List<Student> StudentList { get; set; }
+        }
+
         [Test]
         public void Test_Validate_Must()
         {
@@ -104,18 +114,14 @@ namespace UnitTest
         }
 
         [Test]
-        public void Test_Validate_AllMust()
+        public void Test_Validate_IntList()
         {
             var builder = Validation.NewValidatorBuilder<Student>();
             builder.RuleSet("A", b =>
             {
-                b.RuleFor(i => i.IntList)
-                        .AllMust(i => i >= 0 && i <= 18)
-                        .OverrideError("not student")
-                    .ThenRuleFor(i => i.Name)
-                        .Must(i => !string.IsNullOrWhiteSpace(i))
-                        .OverrideName("student name")
-                        .OverrideError("no name");
+                b.RuleFor(i => i.IntList).Each()
+                    .Must(i => i >= 0 && i <= 18)
+                    .OverrideError("not student");
             });
             var v = builder.Build();
 
@@ -133,5 +139,33 @@ namespace UnitTest
             Assert.False(result.IsValid);
             Assert.True(result.Failures.Count == 1);
         }
+
+        //[Test]
+        //public void Test_Validate_List()
+        //{
+        //    var builder = Validation.NewValidatorBuilder<ADStudent>();
+        //    builder.RuleSet("A", b =>
+        //    {
+        //        b.RuleFor(i => i.StudentList).Each()
+        //        .
+        //            .Must(i => i >= 0 && i <= 18)
+        //            .OverrideError("not student");
+        //    });
+        //    var v = builder.Build();
+
+        //    var student = new Student() { Age = 13, Name = "v", IntList = new List<int> { 0, 2, 4 } };
+        //    var context = Validation.CreateContext(student);
+        //    var result = v.Validate(context);
+        //    Assert.IsNotNull(result);
+        //    Assert.True(result.IsValid);
+        //    Assert.True(result.Failures.Count == 0);
+
+        //    student = new Student() { Age = 13, Name = "v", IntList = new List<int> { 0, 2, 4, 23 } };
+        //    context = Validation.CreateContext(student);
+        //    result = v.Validate(context);
+        //    Assert.IsNotNull(result);
+        //    Assert.False(result.IsValid);
+        //    Assert.True(result.Failures.Count == 1);
+        //}
     }
 }

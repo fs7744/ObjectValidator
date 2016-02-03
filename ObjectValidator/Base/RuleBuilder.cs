@@ -71,7 +71,7 @@ namespace ObjectValidator.Base
             return builder;
         }
 
-        public IValidateRule Build()
+        public virtual IValidateRule Build()
         {
             var rule = Container.Resolve<IValidateRule>();
             rule.ValueName = ValueName;
