@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using ObjectValidator.Base;
+using ObjectValidator.Checkers;
 using ObjectValidator.Common;
 using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
@@ -32,6 +33,9 @@ namespace ObjectValidator
                 builder.RegisterType<ValidateResult>().As<IValidateResult>().InstancePerDependency();
                 builder.RegisterGeneric(typeof(ValidatorBuilder<>)).As(typeof(IValidatorBuilder<>)).InstancePerDependency();
                 builder.RegisterType<Validator>().As<IValidatorSetter>().InstancePerDependency();
+                builder.RegisterType<CollectionValidateRule>().As<CollectionValidateRule>().InstancePerDependency();
+                builder.RegisterGeneric(typeof(EachChecker<,>)).As(typeof(EachChecker<,>)).InstancePerDependency();
+                builder.RegisterGeneric(typeof(CollectionRuleBuilder<,>)).As(typeof(CollectionRuleBuilder<,>)).InstancePerDependency();
             });
         }
 

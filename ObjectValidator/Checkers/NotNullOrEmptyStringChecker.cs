@@ -2,7 +2,7 @@
 
 namespace ObjectValidator.Checkers
 {
-    public class NotNullOrEmptyChecker<T> : BaseChecker<T, string>
+    public class NotNullOrEmptyStringChecker<T> : BaseChecker<T, string>
     {
         public override IValidateResult Validate(IValidateResult result, string value, string name, string error)
         {

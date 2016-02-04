@@ -9,7 +9,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ObjectValidator")]
-[assembly: AssemblyCopyright("版权所有(C)  2015")]
+[assembly: AssemblyCopyright("版权所有(C) Vicotr.X.Qu 2015-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("zh-Hans")]
@@ -24,5 +24,5 @@ using System.Resources;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.4.2")]
-[assembly: AssemblyFileVersion("0.0.4.2")]
+[assembly: AssemblyVersion("0.0.4.3")]
+[assembly: AssemblyFileVersion("0.0.4.3")]

@@ -1,7 +1,10 @@
 ﻿using ObjectValidator.Checkers;
 using ObjectValidator.Common;
+using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ObjectValidator
@@ -42,6 +45,21 @@ namespace ObjectValidator
             return new LengthChecker<T>(min, max).SetValidate(builder);
         }
 
+        public static IRuleMessageBuilder<T, string> LengthEqual<T>(this IFluentRuleBuilder<T, string> builder, int length)
+        {
+            return new LengthChecker<T>(length, length).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, string> LengthGreaterThanOrEqual<T>(this IFluentRuleBuilder<T, string> builder, int length)
+        {
+            return new LengthChecker<T>(length, -1).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, string> LengthLessThanOrEqual<T>(this IFluentRuleBuilder<T, string> builder, int length)
+        {
+            return new LengthChecker<T>(-1, length).SetValidate(builder);
+        }
+
         public static IRuleMessageBuilder<T, string> Regex<T>(this IFluentRuleBuilder<T, string> builder, string pattern)
         {
             return new RegexChecker<T>(pattern).SetValidate(builder);
@@ -64,12 +82,17 @@ namespace ObjectValidator
 
         public static IRuleMessageBuilder<T, string> NotNullOrEmpty<T>(this IFluentRuleBuilder<T, string> builder)
         {
-            return new NotNullOrEmptyChecker<T>().SetValidate(builder);
+            return new NotNullOrEmptyStringChecker<T>().SetValidate(builder);
         }
 
         public static IRuleMessageBuilder<T, string> NotNullOrWhiteSpace<T>(this IFluentRuleBuilder<T, string> builder)
         {
             return new NotNullOrWhiteSpaceChecker<T>().SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, float> Between<T>(this IFluentRuleBuilder<T, float> builder, float min, float max)
+        {
+            return new BetweenFloatChecker<T>(min, max).SetValidate(builder);
         }
 
         public static IRuleMessageBuilder<T, int> Between<T>(this IFluentRuleBuilder<T, int> builder, int min, int max)
@@ -90,6 +113,131 @@ namespace ObjectValidator
         public static IRuleMessageBuilder<T, long> Between<T>(this IFluentRuleBuilder<T, long> builder, long min, long max)
         {
             return new BetweenLongChecker<T>(min, max).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, float> GreaterThan<T>(this IFluentRuleBuilder<T, float> builder, float value)
+        {
+            return new GreaterThanFloatChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, int> GreaterThan<T>(this IFluentRuleBuilder<T, int> builder, int value)
+        {
+            return new GreaterThanIntChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, double> GreaterThan<T>(this IFluentRuleBuilder<T, double> builder, double value)
+        {
+            return new GreaterThanDoubleChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> GreaterThan<T>(this IFluentRuleBuilder<T, decimal> builder, decimal value)
+        {
+            return new GreaterThanDecimalChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, long> GreaterThan<T>(this IFluentRuleBuilder<T, long> builder, long value)
+        {
+            return new GreaterThanLongChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, TProperty> CustomCheck<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder, Func<TProperty, IEnumerable<ValidateFailure>> func)
+        {
+            return new CustomChecker<T, TProperty>(func).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, IEnumerable> NotNullOrEmpty<T>(this IFluentRuleBuilder<T, IEnumerable> builder)
+        {
+            return new NotNullOrEmptyListChecker<T>().SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, float> GreaterThanOrEqual<T>(this IFluentRuleBuilder<T, float> builder, float value)
+        {
+            return new GreaterThanOrEqualFloatChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, int> GreaterThanOrEqual<T>(this IFluentRuleBuilder<T, int> builder, int value)
+        {
+            return new GreaterThanOrEqualIntChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, double> GreaterThanOrEqual<T>(this IFluentRuleBuilder<T, double> builder, double value)
+        {
+            return new GreaterThanOrEqualDoubleChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> GreaterThanOrEqual<T>(this IFluentRuleBuilder<T, decimal> builder, decimal value)
+        {
+            return new GreaterThanOrEqualDecimalChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, long> GreaterThanOrEqual<T>(this IFluentRuleBuilder<T, long> builder, long value)
+        {
+            return new GreaterThanOrEqualLongChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, float> LessThan<T>(this IFluentRuleBuilder<T, float> builder, float value)
+        {
+            return new LessThanFloatChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, int> LessThan<T>(this IFluentRuleBuilder<T, int> builder, int value)
+        {
+            return new LessThanIntChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, double> LessThan<T>(this IFluentRuleBuilder<T, double> builder, double value)
+        {
+            return new LessThanDoubleChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> LessThan<T>(this IFluentRuleBuilder<T, decimal> builder, decimal value)
+        {
+            return new LessThanDecimalChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, long> LessThan<T>(this IFluentRuleBuilder<T, long> builder, long value)
+        {
+            return new LessThanLongChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, float> LessThanOrEqual<T>(this IFluentRuleBuilder<T, float> builder, float value)
+        {
+            return new LessThanOrEqualFloatChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, int> LessThanOrEqual<T>(this IFluentRuleBuilder<T, int> builder, int value)
+        {
+            return new LessThanOrEqualIntChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, double> LessThanOrEqual<T>(this IFluentRuleBuilder<T, double> builder, double value)
+        {
+            return new LessThanOrEqualDoubleChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> LessThanOrEqual<T>(this IFluentRuleBuilder<T, decimal> builder, decimal value)
+        {
+            return new LessThanOrEqualDecimalChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, long> LessThanOrEqual<T>(this IFluentRuleBuilder<T, long> builder, long value)
+        {
+            return new LessThanOrEqualLongChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, string> NotRegex<T>(this IFluentRuleBuilder<T, string> builder, string pattern)
+        {
+            return new NotRegexChecker<T>(pattern).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, string> NotRegex<T>(this IFluentRuleBuilder<T, string> builder, string pattern, RegexOptions options)
+        {
+            return new NotRegexChecker<T>(pattern, options).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, string> NotRegex<T>(this IFluentRuleBuilder<T, string> builder, Regex regex)
+        {
+            return new NotRegexChecker<T>(regex).SetValidate(builder);
         }
 
         #endregion RuleChecker
@@ -142,6 +290,24 @@ namespace ObjectValidator
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Length(min, max);
         }
 
+        public static IRuleMessageBuilder<T, string> LengthEqual<T>(this IRuleMessageBuilder<T, string> builder, int length)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, string>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LengthEqual(length);
+        }
+
+        public static IRuleMessageBuilder<T, string> LengthGreaterThanOrEqual<T>(this IRuleMessageBuilder<T, string> builder, int length)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, string>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LengthGreaterThanOrEqual(length);
+        }
+
+        public static IRuleMessageBuilder<T, string> LengthLessThanOrEqual<T>(this IRuleMessageBuilder<T, string> builder, int length)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, string>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Length(-1, length);
+        }
+
         public static IRuleMessageBuilder<T, TProperty> NotEqual<T, TProperty>(this IRuleMessageBuilder<T, TProperty> builder, TProperty value)
         {
             var ruleBuilder = builder as IRuleBuilder<T, TProperty>;
@@ -178,6 +344,12 @@ namespace ObjectValidator
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Email();
         }
 
+        public static IRuleMessageBuilder<T, float> Between<T>(this IRuleMessageBuilder<T, float> builder, float min, float max)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, float>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Between(min, max);
+        }
+
         public static IRuleMessageBuilder<T, int> Between<T>(this IRuleMessageBuilder<T, int> builder, int min, int max)
         {
             var ruleBuilder = builder as IRuleBuilder<T, int>;
@@ -202,26 +374,10 @@ namespace ObjectValidator
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).Between(min, max);
         }
 
-        #endregion NextRuleChecker
-        
-        public static IRuleMessageBuilder<T, int> GreaterThan<T>(this IFluentRuleBuilder<T, int> builder, int value)
+        public static IRuleMessageBuilder<T, float> GreaterThan<T>(this IRuleMessageBuilder<T, float> builder, float value)
         {
-            return new IntGreaterThanChecker<T>(value).SetValidate(builder);
-        }
-
-        public static IRuleMessageBuilder<T, double> GreaterThan<T>(this IFluentRuleBuilder<T, double> builder, double value)
-        {
-            return new DoubleGreaterThanChecker<T>(value).SetValidate(builder);
-        }
-
-        public static IRuleMessageBuilder<T, decimal> GreaterThan<T>(this IFluentRuleBuilder<T, decimal> builder, decimal value)
-        {
-            return new DecimalGreaterThanChecker<T>(value).SetValidate(builder);
-        }
-
-        public static IRuleMessageBuilder<T, long> GreaterThan<T>(this IFluentRuleBuilder<T, long> builder, long value)
-        {
-            return new LongGreaterThanChecker<T>(value).SetValidate(builder);
+            var ruleBuilder = builder as IRuleBuilder<T, float>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
         }
 
         public static IRuleMessageBuilder<T, int> GreaterThan<T>(this IRuleMessageBuilder<T, int> builder, int value)
@@ -247,10 +403,115 @@ namespace ObjectValidator
             var ruleBuilder = builder as IRuleBuilder<T, long>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
         }
-        
-        public static IRuleMessageBuilder<T, TProperty> CustomCheck<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder, Func<TProperty, IEnumerable<ValidateFailure>> func)
+
+        public static IRuleMessageBuilder<T, float> GreaterThanOrEqual<T>(this IRuleMessageBuilder<T, float> builder, float value)
         {
-            return new CustomChecker<T, TProperty>(func).SetValidate(builder);
+            var ruleBuilder = builder as IRuleBuilder<T, float>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThanOrEqual(value);
         }
+
+        public static IRuleMessageBuilder<T, int> GreaterThanOrEqual<T>(this IRuleMessageBuilder<T, int> builder, int value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, int>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, double> GreaterThanOrEqual<T>(this IRuleMessageBuilder<T, double> builder, double value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, double>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> GreaterThanOrEqual<T>(this IRuleMessageBuilder<T, decimal> builder, decimal value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, decimal>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, long> GreaterThanOrEqual<T>(this IRuleMessageBuilder<T, long> builder, long value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, long>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, float> LessThan<T>(this IRuleMessageBuilder<T, float> builder, float value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, float>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, int> LessThan<T>(this IRuleMessageBuilder<T, int> builder, int value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, int>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, double> LessThan<T>(this IRuleMessageBuilder<T, double> builder, double value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, double>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> LessThan<T>(this IRuleMessageBuilder<T, decimal> builder, decimal value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, decimal>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, long> LessThan<T>(this IRuleMessageBuilder<T, long> builder, long value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, long>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, float> LessThanOrEqual<T>(this IRuleMessageBuilder<T, float> builder, float value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, float>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, int> LessThanOrEqual<T>(this IRuleMessageBuilder<T, int> builder, int value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, int>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, double> LessThanOrEqual<T>(this IRuleMessageBuilder<T, double> builder, double value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, double>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> LessThanOrEqual<T>(this IRuleMessageBuilder<T, decimal> builder, decimal value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, decimal>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, long> LessThanOrEqual<T>(this IRuleMessageBuilder<T, long> builder, long value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, long>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThanOrEqual(value);
+        }
+
+        public static IRuleMessageBuilder<T, string> NotRegex<T>(this IRuleMessageBuilder<T, string> builder, string pattern)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, string>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).NotRegex(pattern);
+        }
+
+        public static IRuleMessageBuilder<T, string> NotRegex<T>(this IRuleMessageBuilder<T, string> builder, string pattern, RegexOptions options)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, string>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).NotRegex(pattern, options);
+        }
+
+        public static IRuleMessageBuilder<T, string> NotRegex<T>(this IRuleMessageBuilder<T, string> builder, Regex regex)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, string>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).NotRegex(regex);
+        }
+
+        #endregion NextRuleChecker
     }
 }

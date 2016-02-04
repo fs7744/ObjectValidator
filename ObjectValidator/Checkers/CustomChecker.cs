@@ -1,3 +1,4 @@
+using ObjectValidator.Common;
 using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
@@ -11,6 +12,7 @@ namespace ObjectValidator.Checkers
 
         public CustomChecker(Func<TProperty, IEnumerable<ValidateFailure>> func)
         {
+            ParamHelper.CheckParamNull(func, "func", "Can't be null");
             m_Func = func;
         }
 

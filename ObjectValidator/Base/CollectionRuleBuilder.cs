@@ -17,7 +17,7 @@ namespace ObjectValidator.Base
 
         public override IValidateRule Build()
         {
-            var rule = new CollectionValidateRule();
+            var rule = Container.Resolve<CollectionValidateRule>();
             rule.ValueName = ValueName;
             rule.Error = Error;
             rule.ValidateFunc = ValidateFunc;
