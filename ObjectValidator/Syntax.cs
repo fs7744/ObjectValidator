@@ -206,12 +206,45 @@ namespace ObjectValidator
         
         public static IRuleMessageBuilder<T, int> GreaterThan<T>(this IFluentRuleBuilder<T, int> builder, int value)
         {
-            return new GreaterThanChecker<T>(value).SetValidate(builder);
+            return new IntGreaterThanChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, double> GreaterThan<T>(this IFluentRuleBuilder<T, double> builder, double value)
+        {
+            return new DoubleGreaterThanChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> GreaterThan<T>(this IFluentRuleBuilder<T, decimal> builder, decimal value)
+        {
+            return new DecimalGreaterThanChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, long> GreaterThan<T>(this IFluentRuleBuilder<T, long> builder, long value)
+        {
+            return new LongGreaterThanChecker<T>(value).SetValidate(builder);
         }
 
         public static IRuleMessageBuilder<T, int> GreaterThan<T>(this IRuleMessageBuilder<T, int> builder, int value)
         {
             var ruleBuilder = builder as IRuleBuilder<T, int>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, double> GreaterThan<T>(this IRuleMessageBuilder<T, double> builder, double value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, double>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, decimal> GreaterThan<T>(this IRuleMessageBuilder<T, decimal> builder, decimal value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, decimal>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, long> GreaterThan<T>(this IRuleMessageBuilder<T, long> builder, long value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, long>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
         }
     }
