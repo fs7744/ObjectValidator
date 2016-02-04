@@ -247,5 +247,10 @@ namespace ObjectValidator
             var ruleBuilder = builder as IRuleBuilder<T, long>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
         }
+        
+        public static IRuleMessageBuilder<T, TProperty> CustomCheck<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder, Func<TProperty, string, string, IEnumerable<ValidateFailure>> func)
+        {
+            return new CustomChecker<T, TProperty>(func).SetValidate(builder);
+        }
     }
 }
