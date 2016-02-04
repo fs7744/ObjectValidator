@@ -203,5 +203,16 @@ namespace ObjectValidator
         }
 
         #endregion NextRuleChecker
+        
+        public static IRuleMessageBuilder<T, int> GreaterThan<T>(this IFluentRuleBuilder<T, int> builder, int value)
+        {
+            return new GreaterThanChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, int> GreaterThan<T>(this IRuleMessageBuilder<T, int> builder, int value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, int>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
+        }
     }
 }
