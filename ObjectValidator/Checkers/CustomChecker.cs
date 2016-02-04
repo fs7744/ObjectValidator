@@ -7,16 +7,16 @@ namespace ObjectValidator.Checkers
 {
     public class CustomChecker<T, TProperty> : BaseChecker<T, TProperty>
     {
-        private Func<TProperty, string, string, IEnumerable<ValidateFailure>> m_Func;
+        private Func<TProperty, IEnumerable<ValidateFailure>> m_Func;
 
-        public CustomChecker(Func<TProperty, string, string, IEnumerable<ValidateFailure>> func)
+        public CustomChecker(Func<TProperty, IEnumerable<ValidateFailure>> func)
         {
             m_Func = func;
         }
 
         public override IValidateResult Validate(IValidateResult result, TProperty value, string name, string error)
         {
-            var res = m_Func(value, name, error);
+            var res = m_Func(value);
             if (res != null)
                 result.Merge(res);
             return result;
