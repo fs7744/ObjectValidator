@@ -15,6 +15,37 @@ namespace ObjectValidator
 
         #region RuleChecker
 
+        public static IRuleMessageBuilder<T, TProperty> In<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder, IEnumerable<TProperty> value)
+        {
+            var a = new List<string>();
+            return new InListChecker<T, TProperty>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, Nullable<TProperty>> NotNull<T, TProperty>(this IFluentRuleBuilder<T, Nullable<TProperty>> builder)
+        {
+            return new NullableNotNullChecker<T, TProperty>().SetValidate(builder);
+        }
+        
+        public static IRuleMessageBuilder<T, DateTime> GreaterThan<T>(this IFluentRuleBuilder<T, DateTime> builder, DateTime value)
+        {
+            return new GreaterThanDateTimeChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, DateTime> GreaterThanOrEqual<T>(this IFluentRuleBuilder<T, DateTime> builder, DateTime value)
+        {
+            return new GreaterThanOrEqualDateTimeChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, DateTime> LessThan<T>(this IFluentRuleBuilder<T, DateTime> builder, DateTime value)
+        {
+            return new LessThanDateTimeChecker<T>(value).SetValidate(builder);
+        }
+
+        public static IRuleMessageBuilder<T, DateTime> LessThanOrEqual<T>(this IFluentRuleBuilder<T, DateTime> builder, DateTime value)
+        {
+            return new LessThanOrEqualDateTimeChecker<T>(value).SetValidate(builder);
+        }
+
         public static IRuleMessageBuilder<T, TProperty> Must<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder, Func<TProperty, bool> func)
         {
             return new MustChecker<T, TProperty>(func).SetValidate(builder);
