@@ -1,0 +1,20 @@
+<configuration>
+  <configSections>
+    <section name="dataAccess" type="Newegg.Oversea.DataAccess.Config.DataAccessSection, Newegg.Oversea.DataAccess" />
+  </configSections>
+  <!--
+    exceptionLevel: Full, Safety.
+      Full: will throw all exception message.
+      Safety: remove database info from exception message.
+
+    If your data command files store in multiple folders, you can add config
+      configDirectory="Configuration"
+    dataAccess will read this folder recursive, auto merge all database files and sql config files.
+    If you add configDirectory, dataAccess will ignore "sqlConfigListFile" and "databaseListFile".
+  -->
+  <dataAccess
+    sqlConfigListFile="Configuration\DbCommandFiles.config"
+    databaseListFile="Configuration\Database.config"
+    exceptionLevel="Safety"
+    />
+</configuration>

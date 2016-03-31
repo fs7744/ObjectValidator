@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <section name="eggkeeper" type="EggKeeper.Sdk.Config.EggKeeperConfiguration, EggKeeper.Sdk"/>
+  </configSections>
+  <eggkeeper defaultCluster="myCluster">
+    <clusters>
+      <add name="myCluster" connectionString="10.16.75.23:8481, 10.16.75.25:8481, 10.16.75.26:8481" 
+             sessionTimeout="5000" />
+    </clusters>
+  </eggkeeper>
+</configuration>

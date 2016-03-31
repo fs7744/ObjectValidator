@@ -1,0 +1,13 @@
+<configuration>
+  <configSections>
+    <section name="frameworkTools" type="Newegg.Framework.Tools.Configuration.FrameworkConfiguration, Newegg.Framework.Tools"/>
+  </configSections>
+  <frameworkTools>
+    <!--
+      logProvider: Text / Debug / Other (must implement ILogEmitter)
+	  You can set provider to Other, and set emitter="Newegg.FrameworkAPI.SDK.Log.APILogEmitter,Newegg.FrameworkAPI.SDK"
+	  to use log api
+    -->
+    <logSetting logProvider="Text" logFolder="Logs" emitter=""/>
+  </frameworkTools>
+</configuration>
