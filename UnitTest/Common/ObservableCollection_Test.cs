@@ -9,6 +9,13 @@ namespace UnitTest.Common
     public class ObservableCollection_Test
     {
         [Test]
+        public void Test_ObservableCollection_IsReadOnly()
+        {
+            var list = new ObservableCollection<int>();
+            Assert.False(list.IsReadOnly);
+        }
+
+        [Test]
         public void Test_ObservableCollection_Count()
         {
             var list = new ObservableCollection<int>();

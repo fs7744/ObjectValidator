@@ -12,13 +12,13 @@ namespace UnitTest.Base
     [TestFixture]
     public class ValidateRule_Test
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetContainer()
         {
             Container.Init();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void ClearContainer()
         {
             Container.Clear();

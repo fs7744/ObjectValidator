@@ -3,19 +3,20 @@ using ObjectValidator;
 using ObjectValidator.Common;
 using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
+using System;
 
 namespace UnitTest.Common
 {
     [TestFixture]
     public class Utils_Test
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetContainer()
         {
             Container.Init();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void ClearContainer()
         {
             Container.Clear();
@@ -30,6 +31,11 @@ namespace UnitTest.Common
             var builder = rule as IRuleMessageBuilder<ValidateFailure, string>;
             Assert.IsNotNull(builder);
             Assert.AreEqual("Error", (builder as IValidateRuleBuilder).ValueName);
+
+            var ex = Assert.Throws<ArgumentNullException>(() => Utils.RuleFor<ValidateFailure, string>(null));
+            Assert.NotNull(ex);
+            Assert.AreEqual("expression", ex.ParamName);
+            Assert.True(ex.Message.Contains("Can't be null"));
         }
     }
 }

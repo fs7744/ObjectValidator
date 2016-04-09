@@ -9,13 +9,13 @@ namespace UnitTest.Base
     [TestFixture]
     public class RuleBuilder_Test
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetContainer()
         {
             Container.Init();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void ClearContainer()
         {
             Container.Clear();

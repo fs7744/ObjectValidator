@@ -6,7 +6,6 @@ namespace ObjectValidator.Common
     {
         public static void CheckParamEmptyOrNull(string param, string paramName, string message)
         {
-            CheckParamNull(param, paramName, message);
             if (string.IsNullOrEmpty(param))
                 throw new ArgumentException(message, paramName);
         }

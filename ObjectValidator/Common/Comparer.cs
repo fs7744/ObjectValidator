@@ -35,31 +35,20 @@ namespace ObjectValidator.Common
                 }
                 else
                 {
-                    result = ((long)value).CompareTo((long)valueToCompare);
+                    result = Convert.ToInt64(value).CompareTo(Convert.ToInt64(valueToCompare));
                 }
             }
-        }
-
-        public static int GetComparisonResult(IComparable value, IComparable valueToCompare)
-        {
-            int result;
-            if (TryCompare(value, valueToCompare, out result))
-            {
-                return result;
-            }
-
-            return value.CompareTo(valueToCompare);
         }
 
         public static bool GetEqualsResult(IComparable value, IComparable valueToCompare)
         {
             int result;
-            if (TryCompare(value, valueToCompare, out result))
+            if (value != valueToCompare && !value.Equals(valueToCompare) && TryCompare(value, valueToCompare, out result))
             {
                 return result == 0;
             }
 
-            return value.Equals(valueToCompare);
+            return true;
         }
     }
 }

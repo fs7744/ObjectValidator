@@ -8,13 +8,13 @@ namespace UnitTest.Checkers
     [TestFixture]
     public class RegexChecker_Test
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetContainer()
         {
             Container.Init();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void ClearContainer()
         {
             Container.Clear();
