@@ -21,7 +21,7 @@ namespace ObjectValidator
             return new InListChecker<T, TProperty>(value).SetValidate(builder);
         }
 
-        public static IRuleMessageBuilder<T, Nullable<TProperty>> NotNull<T, TProperty>(this IFluentRuleBuilder<T, Nullable<TProperty>> builder)
+        public static IRuleMessageBuilder<T, Nullable<TProperty>> NotNull<T, TProperty>(this IFluentRuleBuilder<T, Nullable<TProperty>> builder) where TProperty : struct
         {
             return new NullableNotNullChecker<T, TProperty>().SetValidate(builder);
         }

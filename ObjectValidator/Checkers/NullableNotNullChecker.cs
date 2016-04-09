@@ -3,7 +3,7 @@ using System;
 
 namespace ObjectValidator.Checkers
 {
-    public class NullableNotNullChecker<T, TProperty> : BaseChecker<T, Nullable<TProperty>>
+    public class NullableNotNullChecker<T, TProperty> : BaseChecker<T, Nullable<TProperty>> where TProperty : struct
     {
         public override IValidateResult Validate(IValidateResult result, Nullable<TProperty> value, string name, string error)
         {
