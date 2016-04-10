@@ -177,7 +177,7 @@ namespace UnitTest.Checkers
         [Test]
         public void Test_NotNullOrEmptyListChecker()
         {
-            var checker = new NotNullOrEmptyListChecker<ValidateContext,string>();
+            var checker = new NotNullOrEmptyListChecker<ValidateContext, string>();
             var result = checker.Validate(checker.GetResult(), null, "a", "b");
             Assert.NotNull(result);
             Assert.False(result.IsValid);
