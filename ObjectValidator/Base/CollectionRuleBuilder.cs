@@ -24,10 +24,7 @@ namespace ObjectValidator.Base
             rule.Condition = Condition;
             rule.RuleSet = RuleSet;
             EachChecker.ValidateRule = rule;
-            if (ElementRuleBuilderList != null)
-            {
-                rule.NextRuleList = ElementRuleBuilderList.Where(i => i != null).Select(i => i.Build()).ToList();
-            }
+            rule.NextRuleList = ElementRuleBuilderList.Where(i => i != null).Select(i => i.Build()).ToList();
             return rule;
         }
     }

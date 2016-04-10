@@ -79,10 +79,7 @@ namespace ObjectValidator.Base
             rule.ValidateFunc = ValidateFunc;
             rule.Condition = Condition;
             rule.RuleSet = RuleSet;
-            if (NextRuleBuilderList != null)
-            {
-                rule.NextRuleList = NextRuleBuilderList.Where(i => i != null).Select(i => i.Build()).ToList();
-            }
+            rule.NextRuleList = NextRuleBuilderList.Where(i => i != null).Select(i => i.Build()).ToList();
             return rule;
         }
     }

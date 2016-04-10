@@ -83,6 +83,16 @@ namespace UnitTest.Base
             Assert.AreEqual(true, result.IsValid);
             Assert.AreEqual(0, result.Failures.Count);
 
+            rule.NextRuleList.Add(new ValidateRule() { ValueName = "c", ValidateFunc = failed });
+            rule.NextRuleList.Add(new ValidateRule() { ValueName = "d", ValidateFunc = failed });
+            result = rule.ValidateByFunc(new ValidateContext() { Option = ValidateOption.StopOnFirstFailure });
+            Assert.IsNotNull(result);
+            Assert.AreEqual(false, result.IsValid);
+            Assert.AreEqual(1, result.Failures.Count);
+            Assert.AreEqual("c", result.Failures[0].Name);
+            rule.NextRuleList.RemoveAt(1);
+            rule.NextRuleList.RemoveAt(1);
+
             result = rule.ValidateByFunc(new ValidateContext() { Option = ValidateOption.Continue });
             Assert.IsNotNull(result);
             Assert.AreEqual(true, result.IsValid);

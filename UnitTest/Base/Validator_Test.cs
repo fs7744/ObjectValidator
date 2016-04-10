@@ -2,6 +2,7 @@
 using ObjectValidator;
 using ObjectValidator.Base;
 using ObjectValidator.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace UnitTest.Base
@@ -72,6 +73,23 @@ namespace UnitTest.Base
             Assert.True(result.IsValid);
             Assert.IsNotNull(result.Failures);
             Assert.AreEqual(0, result.Failures.Count);
+        }
+
+        [Test]
+        public void Test_Validator_Exception()
+        {
+            var v = new Validator();
+            var rule = new ValidateRule()
+            {
+                ValidateFunc = (c, name, error) =>
+                {
+                    throw new Exception();
+                }
+            };
+            v.SetRules(new List<ValidateRule>() { rule });
+
+            var context = new ValidateContext() { RuleSelector = new RuleSelector() };
+            Assert.Throws<AggregateException>(() => v.Validate(context));
         }
     }
 }

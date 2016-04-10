@@ -50,6 +50,8 @@ namespace UnitTest.Base
              {
                  builder.RuleFor(i => i.Option);
                  builder.RuleFor(i => i.RuleSelector);
+                 builder.RuleFor(i => i.RuleSelector);
+                 builder.Builders.RemoveAt(2);
              });
             Assert.IsNotNull(builder.Builders);
             Assert.AreEqual(2, builder.Builders.Count);

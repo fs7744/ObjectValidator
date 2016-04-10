@@ -34,13 +34,6 @@ namespace ObjectValidator.Base
                 var tasks = rules.Select(i => Task.Factory.StartNew(() => i.Validate(context))).ToArray();
                 Task.WaitAll(tasks);
 
-                if (tasks.Any(i => i.IsFaulted))
-                {
-                    var exceptions = tasks.Where(i => i.IsFaulted)
-                                        .Select(i => i.Exception);
-                    throw new AggregateException(exceptions);
-                }
-
                 var failures = tasks.Where(i => i.IsCompleted)
                                     .SelectMany(i => i.Result.Failures);
                 result.Merge(failures);
