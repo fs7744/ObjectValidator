@@ -2,7 +2,6 @@
 using ObjectValidator;
 using ObjectValidator.Checkers;
 using ObjectValidator.Entities;
-using System;
 
 namespace UnitTest.Checkers
 {

@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
 using ObjectValidator.Common;
-using System;
-using System.Collections.Generic;
 
 namespace UnitTest.Common
 {

@@ -25,7 +25,7 @@ namespace ObjectValidator
         {
             return new NullableNotNullChecker<T, TProperty>().SetValidate(builder);
         }
-        
+
         public static IRuleMessageBuilder<T, DateTime> GreaterThan<T>(this IFluentRuleBuilder<T, DateTime> builder, DateTime value)
         {
             return new GreaterThanDateTimeChecker<T>(value).SetValidate(builder);

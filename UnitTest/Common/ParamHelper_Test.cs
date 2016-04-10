@@ -28,7 +28,6 @@ namespace UnitTest.Common
             Assert.AreEqual("test3", ex.ParamName);
             Assert.True(ex.Message.Contains("info3"));
             Assert.True(ex.Message.Contains("test3"));
-
         }
 
         [Test]
