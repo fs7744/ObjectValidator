@@ -63,7 +63,14 @@
     <Compile Include="Base\ValidatorBuilder_Test.cs" />
     <Compile Include="Base\Validator_Test.cs" />
     <Compile Include="Checkers\BetweenChecker_Test.cs" />
+    <Compile Include="Checkers\CustomChecker_Test.cs" />
+    <Compile Include="Checkers\EachChecker_Test.cs" />
+    <Compile Include="Checkers\GreaterThanChecker_Test.cs" />
+    <Compile Include="Checkers\GreaterThanOrEqualChecker_Test.cs" />
+    <Compile Include="Checkers\InListChecker_Test.cs" />
     <Compile Include="Checkers\LengthChecker_Test.cs" />
+    <Compile Include="Checkers\LessThanChecker_Test.cs" />
+    <Compile Include="Checkers\LessThanOrEqualChecker_Test.cs" />
     <Compile Include="Checkers\MustChecker_Test.cs" />
     <Compile Include="Checkers\EqualChecker_Test.cs" />
     <Compile Include="Checkers\NotNullChecker_Test.cs" />

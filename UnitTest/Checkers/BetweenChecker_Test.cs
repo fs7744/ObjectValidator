@@ -2,15 +2,12 @@
 using ObjectValidator.Checkers;
 using ObjectValidator.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using static UnitTest.Validation_Test;
 
 namespace UnitTest.Checkers
 {
     [TestFixture]
-    public class BetweenChecker_Test            
+    public class BetweenChecker_Test
     {
         [Test]
         public void Test_BetweenDecimalChecker()
