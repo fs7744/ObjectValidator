@@ -108,7 +108,7 @@ namespace ObjectValidator
 
         public static IRuleMessageBuilder<T, string> Email<T>(this IFluentRuleBuilder<T, string> builder)
         {
-            return new RegexChecker<T>(EmailRegex).SetValidate(builder);
+            return new RegexChecker<T>(EmailRegex).SetValidate(builder).OverrideError("The value is not email address");
         }
 
         public static IRuleMessageBuilder<T, string> NotNullOrEmpty<T>(this IFluentRuleBuilder<T, string> builder)

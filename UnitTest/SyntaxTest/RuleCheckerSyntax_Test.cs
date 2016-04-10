@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using ObjectValidator;
+using ObjectValidator.Entities;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using static UnitTest.Validation_Test;
 
 namespace UnitTest.SyntaxTest
@@ -745,7 +747,7 @@ namespace UnitTest.SyntaxTest
         public void Test_Syntax_Must()
         {
             var builder = Validation.NewValidatorBuilder<Student>();
-            builder.RuleFor(i => i.Age).Must(i=> i == 18);
+            builder.RuleFor(i => i.Age).Must(i => i == 18);
             var v = builder.Build();
             var student = new Student() { Age = 18 };
             var context = Validation.CreateContext(student);
@@ -827,6 +829,380 @@ namespace UnitTest.SyntaxTest
             Assert.AreEqual(18, result.Failures[0].Value);
             Assert.AreEqual("Age", result.Failures[0].Name);
             Assert.AreEqual("The value is equal 18", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_Length()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).Length(3, 18);
+            var v = builder.Build();
+            var student = new Student() { Name = "abc" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ac" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ac", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The length 2 is not between 3 and 18", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_LengthEqual()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).LengthEqual(3);
+            var v = builder.Build();
+            var student = new Student() { Name = "abc" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ac" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ac", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The length 2 is not between 3 and 3", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_LengthGreaterThanOrEqual()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).LengthGreaterThanOrEqual(3);
+            var v = builder.Build();
+            var student = new Student() { Name = "abc4" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ac" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ac", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The length 2 is not between 3 and -1", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_LengthLessThanOrEqual()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).LengthLessThanOrEqual(3);
+            var v = builder.Build();
+            var student = new Student() { Name = "ab3" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ac33" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ac33", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The length 4 is not between -1 and 3", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_Email()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).Email();
+            var v = builder.Build();
+            var student = new Student() { Name = "ab3@23.COM" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ac33" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ac33", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The value is not email address", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_Regex()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).Regex(new Regex(Syntax.EmailRegex));
+            var v = builder.Build();
+            var student = new Student() { Name = "ab3@23.COM" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ac33" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ac33", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The value no match regex", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_RegexOptions()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).Regex(Syntax.EmailRegex, RegexOptions.IgnoreCase);
+            var v = builder.Build();
+            var student = new Student() { Name = "ab3@23.COM" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ac33" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ac33", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The value no match regex", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_RegexPattern()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).Regex(Syntax.EmailRegex);
+            var v = builder.Build();
+            var student = new Student() { Name = "ab3@23.COM" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ac33" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ac33", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The value no match regex", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_NotRegex()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).NotRegex(new Regex(Syntax.EmailRegex));
+            var v = builder.Build();
+            var student = new Student() { Name = "ac33" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ab3@23.COM" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ab3@23.COM", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The value must be not match regex", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_NotRegexOptions()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).NotRegex(Syntax.EmailRegex, RegexOptions.IgnoreCase);
+            var v = builder.Build();
+            var student = new Student() { Name = "ac33" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ab3@23.COM" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ab3@23.COM", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The value must be not match regex", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_NotRegexPattern()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Name).NotRegex(Syntax.EmailRegex);
+            var v = builder.Build();
+            var student = new Student() { Name = "ac33" };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Name = "ab3@23.COM" };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual("ab3@23.COM", result.Failures[0].Value);
+            Assert.AreEqual("Name", result.Failures[0].Name);
+            Assert.AreEqual("The value must be not match regex", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_Between_BetweenFloatChecker()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Float).Between(3f, 9f);
+            var v = builder.Build();
+            var student = new Student() { Float = 5f };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Float = 15f };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual(15f, result.Failures[0].Value);
+            Assert.AreEqual("Float", result.Failures[0].Name);
+            Assert.AreEqual("The value is not between 3 and 9", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_Between_BetweenIntChecker()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Age).Between(3, 9);
+            var v = builder.Build();
+            var student = new Student() { Age = 5 };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Age = 15 };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual(15, result.Failures[0].Value);
+            Assert.AreEqual("Age", result.Failures[0].Name);
+            Assert.AreEqual("The value is not between 3 and 9", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_Between_BetweenDoubleChecker()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Double).Between(3d, 9d);
+            var v = builder.Build();
+            var student = new Student() { Double = 5d };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Double = 15d };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual(15d, result.Failures[0].Value);
+            Assert.AreEqual("Double", result.Failures[0].Name);
+            Assert.AreEqual("The value is not between 3 and 9", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_Between_BetweenDecimalChecker()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Decimal).Between(3m, 9m);
+            var v = builder.Build();
+            var student = new Student() { Decimal = 5m };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Decimal = 15m };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual(15m, result.Failures[0].Value);
+            Assert.AreEqual("Decimal", result.Failures[0].Name);
+            Assert.AreEqual("The value is not between 3 and 9", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_Between_BetweenLongChecker()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Long).Between(3L, 9L);
+            var v = builder.Build();
+            var student = new Student() { Long = 5L };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Long = 15L };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual(15L, result.Failures[0].Value);
+            Assert.AreEqual("Long", result.Failures[0].Name);
+            Assert.AreEqual("The value is not between 3 and 9", result.Failures[0].Error);
+        }
+
+        [Test]
+        public void Test_Syntax_CustomCheck()
+        {
+            var builder = Validation.NewValidatorBuilder<Student>();
+            builder.RuleFor(i => i.Long).CustomCheck(i => 3L < i && i < 9L ? null : new List<ValidateFailure>() { new ValidateFailure() { Name = "Long", Value = i, Error = "CustomCheck" } });
+            var v = builder.Build();
+            var student = new Student() { Long = 5L };
+            var context = Validation.CreateContext(student);
+            var result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+
+            student = new Student() { Long = 15L };
+            context = Validation.CreateContext(student);
+            result = v.Validate(context);
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            Assert.AreEqual(15L, result.Failures[0].Value);
+            Assert.AreEqual("Long", result.Failures[0].Name);
+            Assert.AreEqual("CustomCheck", result.Failures[0].Error);
         }
     }
 }
