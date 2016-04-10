@@ -303,6 +303,18 @@ namespace ObjectValidator
 
         #region NextRuleChecker
 
+        public static IRuleMessageBuilder<T, TProperty> In<T, TProperty>(this IRuleMessageBuilder<T, TProperty> builder, IEnumerable<TProperty> value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, TProperty>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).In(value);
+        }
+
+        public static IRuleMessageBuilder<T, TProperty> CustomCheck<T, TProperty>(this IRuleMessageBuilder<T, TProperty> builder, Func<TProperty, IEnumerable<ValidateFailure>> func)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, TProperty>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).CustomCheck(func);
+        }
+
         public static IRuleMessageBuilder<T, TProperty> Must<T, TProperty>(this IRuleMessageBuilder<T, TProperty> builder, Func<TProperty, bool> func)
         {
             var ruleBuilder = builder as IRuleBuilder<T, TProperty>;
@@ -417,6 +429,12 @@ namespace ObjectValidator
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
         }
 
+        public static IRuleMessageBuilder<T, DateTime> GreaterThan<T>(this IRuleMessageBuilder<T, DateTime> builder, DateTime value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, DateTime>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
+        }
+
         public static IRuleMessageBuilder<T, double> GreaterThan<T>(this IRuleMessageBuilder<T, double> builder, double value)
         {
             var ruleBuilder = builder as IRuleBuilder<T, double>;
@@ -433,6 +451,12 @@ namespace ObjectValidator
         {
             var ruleBuilder = builder as IRuleBuilder<T, long>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, DateTime> GreaterThanOrEqual<T>(this IRuleMessageBuilder<T, DateTime> builder, DateTime value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, DateTime>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThanOrEqual(value);
         }
 
         public static IRuleMessageBuilder<T, float> GreaterThanOrEqual<T>(this IRuleMessageBuilder<T, float> builder, float value)
@@ -465,6 +489,12 @@ namespace ObjectValidator
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).GreaterThanOrEqual(value);
         }
 
+        public static IRuleMessageBuilder<T, DateTime> LessThan<T>(this IRuleMessageBuilder<T, DateTime> builder, DateTime value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, DateTime>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThan(value);
+        }
+
         public static IRuleMessageBuilder<T, float> LessThan<T>(this IRuleMessageBuilder<T, float> builder, float value)
         {
             var ruleBuilder = builder as IRuleBuilder<T, float>;
@@ -493,6 +523,12 @@ namespace ObjectValidator
         {
             var ruleBuilder = builder as IRuleBuilder<T, long>;
             return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThan(value);
+        }
+
+        public static IRuleMessageBuilder<T, DateTime> LessThanOrEqual<T>(this IRuleMessageBuilder<T, DateTime> builder, DateTime value)
+        {
+            var ruleBuilder = builder as IRuleBuilder<T, DateTime>;
+            return ruleBuilder.ThenRuleFor(ruleBuilder.ValueExpression).LessThanOrEqual(value);
         }
 
         public static IRuleMessageBuilder<T, float> LessThanOrEqual<T>(this IRuleMessageBuilder<T, float> builder, float value)
