@@ -2,9 +2,6 @@
 using ObjectValidator.Checkers;
 using ObjectValidator.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using static UnitTest.Validation_Test;
 
 namespace UnitTest.Checkers

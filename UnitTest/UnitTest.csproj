@@ -65,6 +65,7 @@
     <Compile Include="Checkers\BetweenChecker_Test.cs" />
     <Compile Include="Checkers\CustomChecker_Test.cs" />
     <Compile Include="Checkers\EachChecker_Test.cs" />
+    <Compile Include="Checkers\NotEqualChecker_Test.cs" />
     <Compile Include="Checkers\GreaterThanChecker_Test.cs" />
     <Compile Include="Checkers\GreaterThanOrEqualChecker_Test.cs" />
     <Compile Include="Checkers\InListChecker_Test.cs" />
@@ -73,7 +74,9 @@
     <Compile Include="Checkers\LessThanOrEqualChecker_Test.cs" />
     <Compile Include="Checkers\MustChecker_Test.cs" />
     <Compile Include="Checkers\EqualChecker_Test.cs" />
+    <Compile Include="Checkers\MustNotChecker_Test.cs" />
     <Compile Include="Checkers\NotNullChecker_Test.cs" />
+    <Compile Include="Checkers\NotRegexChecker_Test.cs" />
     <Compile Include="Checkers\RegexChecker_Test.cs" />
     <Compile Include="Common\Comparer_Test.cs" />
     <Compile Include="Common\EnumerableHelper_Test.cs" />
