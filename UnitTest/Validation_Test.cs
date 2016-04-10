@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using ObjectValidator;
+using System;
 using System.Collections.Generic;
 
 namespace UnitTest
@@ -23,9 +24,21 @@ namespace UnitTest
         {
             public int Age { get; set; }
 
+            public int? Age2 { get; set; }
+
             public string Name { get; set; }
 
             public List<int> IntList { get; set; }
+
+            public DateTime Bir { get; set; }
+
+            public float Float { get; set; }
+
+            public double Double { get; set; }
+
+            public decimal Decimal { get; set; }
+
+            public long Long { get; set; }
         }
 
         public class ADStudent

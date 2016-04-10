@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace ObjectValidator.Checkers
 {
-    public class NotNullOrEmptyListChecker<T> : BaseChecker<T, IEnumerable>
+    public class NotNullOrEmptyListChecker<T, TProperty> : BaseChecker<T, TProperty> where TProperty : IEnumerable
     {
-        public override IValidateResult Validate(IValidateResult result, IEnumerable value, string name, string error)
+        public override IValidateResult Validate(IValidateResult result, TProperty value, string name, string error)
         {
             if (value == null || !value.GetEnumerator().MoveNext())
             {

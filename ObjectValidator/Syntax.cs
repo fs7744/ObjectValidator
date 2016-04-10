@@ -21,7 +21,7 @@ namespace ObjectValidator
             return new InListChecker<T, TProperty>(value).SetValidate(builder);
         }
 
-        public static IRuleMessageBuilder<T, Nullable<TProperty>> NotNull<T, TProperty>(this IFluentRuleBuilder<T, Nullable<TProperty>> builder) where TProperty : struct
+        public static IRuleMessageBuilder<T, TProperty?> NotNull<T, TProperty>(this IFluentRuleBuilder<T, TProperty?> builder) where TProperty : struct
         {
             return new NullableNotNullChecker<T, TProperty>().SetValidate(builder);
         }
@@ -176,9 +176,9 @@ namespace ObjectValidator
             return new CustomChecker<T, TProperty>(func).SetValidate(builder);
         }
 
-        public static IRuleMessageBuilder<T, IEnumerable> NotNullOrEmpty<T>(this IFluentRuleBuilder<T, IEnumerable> builder)
+        public static IRuleMessageBuilder<T, TProperty> NotNullOrEmpty<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder) where TProperty : IEnumerable
         {
-            return new NotNullOrEmptyListChecker<T>().SetValidate(builder);
+            return new NotNullOrEmptyListChecker<T, TProperty>().SetValidate(builder);
         }
 
         public static IRuleMessageBuilder<T, float> GreaterThanOrEqual<T>(this IFluentRuleBuilder<T, float> builder, float value)
