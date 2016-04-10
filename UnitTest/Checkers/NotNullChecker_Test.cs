@@ -33,6 +33,15 @@ namespace UnitTest.Checkers
             Assert.AreEqual(null, result.Failures[0].Value);
             Assert.AreEqual("b", result.Failures[0].Error);
 
+            result = checker.Validate(checker.GetResult(), null, "a", null);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(false, result.IsValid);
+            Assert.IsNotNull(result.Failures);
+            Assert.AreEqual(1, result.Failures.Count);
+            Assert.AreEqual("a", result.Failures[0].Name);
+            Assert.AreEqual(null, result.Failures[0].Value);
+            Assert.AreEqual("Can't be null", result.Failures[0].Error);
+
             result = checker.Validate(checker.GetResult(), "a", "a", "b");
             Assert.IsNotNull(result);
             Assert.AreEqual(true, result.IsValid);

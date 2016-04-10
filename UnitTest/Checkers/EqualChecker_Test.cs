@@ -2,11 +2,12 @@
 using ObjectValidator;
 using ObjectValidator.Checkers;
 using ObjectValidator.Entities;
+using System;
 
 namespace UnitTest.Checkers
 {
     [TestFixture]
-    public class NotEqualChecker_Test
+    public class EqualChecker_Test
     {
         [OneTimeSetUp]
         public void SetContainer()

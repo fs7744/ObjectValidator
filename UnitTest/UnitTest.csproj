@@ -64,7 +64,7 @@
     <Compile Include="Base\Validator_Test.cs" />
     <Compile Include="Checkers\LengthChecker_Test.cs" />
     <Compile Include="Checkers\MustChecker_Test.cs" />
-    <Compile Include="Checkers\NotEqualChecker_Test.cs" />
+    <Compile Include="Checkers\EqualChecker_Test.cs" />
     <Compile Include="Checkers\NotNullChecker_Test.cs" />
     <Compile Include="Checkers\RegexChecker_Test.cs" />
     <Compile Include="Common\Comparer_Test.cs" />

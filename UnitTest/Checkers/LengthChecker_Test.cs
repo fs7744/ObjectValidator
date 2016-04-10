@@ -2,6 +2,7 @@
 using ObjectValidator;
 using ObjectValidator.Checkers;
 using ObjectValidator.Entities;
+using System;
 
 namespace UnitTest.Checkers
 {
@@ -23,6 +24,10 @@ namespace UnitTest.Checkers
         [Test]
         public void Test_LengthChecker()
         {
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => new LengthChecker<ValidateContext>(5, 1));
+            Assert.AreEqual("max", ex.ParamName);
+            Assert.True(ex.Message.Contains("Max should be larger than min."));
+
             var checker = new LengthChecker<ValidateContext>(2, -1);
             var result = checker.Validate(checker.GetResult(), string.Empty, "a", null);
             Assert.IsNotNull(result);
