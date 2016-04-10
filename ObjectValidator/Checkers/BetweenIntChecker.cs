@@ -10,7 +10,7 @@ namespace ObjectValidator.Checkers
 
         public BetweenIntChecker(int min, int max)
         {
-            if (max != -1 && max < min)
+            if (max < min)
             {
                 throw new ArgumentOutOfRangeException("max", "Max should be larger than min.");
             }
@@ -21,7 +21,7 @@ namespace ObjectValidator.Checkers
 
         public override IValidateResult Validate(IValidateResult result, int value, string name, string error)
         {
-            if (m_Min <= value && m_Max >= value)
+            if (m_Min >= value || m_Max <= value)
             {
                 AddFailure(result, name, value, error ??
                     string.Format("The value is not between {0} and {1}", m_Min, m_Max));
