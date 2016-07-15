@@ -1,12 +1,15 @@
 using ObjectValidator.Interfaces;
-using System;
 using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
-    public class NullableNotNullChecker<T, TProperty> : BaseChecker<T, Nullable<TProperty>> where TProperty : struct
+    public class NullableNotNullChecker<T, TProperty> : BaseChecker<T, TProperty?> where TProperty : struct
     {
-        public override Task<IValidateResult> ValidateAsync(IValidateResult result, Nullable<TProperty> value, string name, string error)
+        public NullableNotNullChecker(Validation validation) : base(validation)
+        {
+        }
+
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, TProperty? value, string name, string error)
         {
             if (!value.HasValue)
             {

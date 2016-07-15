@@ -1,4 +1,5 @@
-﻿using ObjectValidator.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ObjectValidator.Common;
 using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System.Collections;
@@ -9,10 +10,14 @@ namespace ObjectValidator.Base
 {
     public class CollectionValidateRule : ValidateRule
     {
+        public CollectionValidateRule(Validation validation) : base(validation)
+        {
+        }
+
         public override Task<IValidateResult> ValidateAsync(ValidateContext context)
         {
             ParamHelper.CheckParamNull(context, "context", "Can't be null");
-            IValidateResult result = Container.Resolve<IValidateResult>();
+            IValidateResult result = Validation.Provider.GetService<IValidateResult>();
             var list = context.ValidateObject as IEnumerable;
             if (Condition == null || Condition(context))
             {

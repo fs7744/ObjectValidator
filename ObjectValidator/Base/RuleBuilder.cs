@@ -1,4 +1,5 @@
-﻿using ObjectValidator.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ObjectValidator.Common;
 using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
@@ -12,8 +13,11 @@ namespace ObjectValidator.Base
 {
     public class RuleBuilder<T, TValue> : IRuleBuilder<T, TValue>
     {
-        public RuleBuilder()
+        public Validation Validation { get; private set; }
+
+        public RuleBuilder(Validation validation)
         {
+            Validation = validation;
             NextRuleBuilderList = new List<IValidateRuleBuilder>();
         }
 
@@ -67,14 +71,14 @@ namespace ObjectValidator.Base
 
         public IFluentRuleBuilder<T, TProperty> ThenRuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
         {
-            var builder = Utils.RuleFor(expression);
+            var builder = Validation.RuleFor(expression);
             NextRuleBuilderList.Add(builder as IValidateRuleBuilder);
             return builder;
         }
 
         public virtual IValidateRule Build()
         {
-            var rule = Container.Resolve<IValidateRule>();
+            var rule = Validation.Provider.GetService<IValidateRule>();
             rule.ValueName = ValueName;
             rule.Error = Error;
             rule.ValidateAsyncFunc = ValidateAsyncFunc;

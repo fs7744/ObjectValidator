@@ -9,9 +9,9 @@ namespace ObjectValidator.Checkers
     {
         protected Func<TProperty, bool> m_MustBeTrue;
 
-        public MustChecker(Func<TProperty, bool> func)
+        public MustChecker(Func<TProperty, bool> func, Validation validation) : base(validation)
         {
-            ParamHelper.CheckParamNull(func, "func", "Can't be null");
+            ParamHelper.CheckParamNull(func, nameof(func), "Can't be null");
             m_MustBeTrue = func;
         }
 

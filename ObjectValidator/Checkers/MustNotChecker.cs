@@ -6,7 +6,7 @@ namespace ObjectValidator.Checkers
 {
     public class MustNotChecker<T, TProperty> : MustChecker<T, TProperty>
     {
-        public MustNotChecker(Func<TProperty, bool> func) : base(func)
+        public MustNotChecker(Func<TProperty, bool> func, Validation validation) : base(func, validation)
         {
         }
 

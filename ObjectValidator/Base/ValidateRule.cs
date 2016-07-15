@@ -1,4 +1,5 @@
-﻿using ObjectValidator.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ObjectValidator.Common;
 using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
@@ -9,8 +10,11 @@ namespace ObjectValidator.Base
 {
     public class ValidateRule : IValidateRule
     {
-        public ValidateRule()
+        protected Validation Validation { get; set; }
+
+        public ValidateRule(Validation validation)
         {
+            Validation = validation;
             NextRuleList = new List<IValidateRule>();
         }
 
@@ -37,7 +41,7 @@ namespace ObjectValidator.Base
             }
             else
             {
-                result = Container.Resolve<IValidateResult>();
+                result = Validation.Provider.GetService<IValidateResult>();
             }
             return result;
         }

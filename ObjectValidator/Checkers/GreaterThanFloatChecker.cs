@@ -7,7 +7,7 @@ namespace ObjectValidator.Checkers
     {
         private float m_Value;
 
-        public GreaterThanFloatChecker(float value)
+        public GreaterThanFloatChecker(float value, Validation validation) : base(validation)
         {
             m_Value = value;
         }

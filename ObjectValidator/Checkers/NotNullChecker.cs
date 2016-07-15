@@ -5,6 +5,10 @@ namespace ObjectValidator.Checkers
 {
     public class NotNullChecker<T, TProperty> : BaseChecker<T, TProperty>
     {
+        public NotNullChecker(Validation validation) : base(validation)
+        {
+        }
+
         public override Task<IValidateResult> ValidateAsync(IValidateResult result, TProperty value, string name, string error)
         {
             if (value == null)

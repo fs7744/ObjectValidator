@@ -7,7 +7,7 @@ namespace ObjectValidator.Checkers
     {
         private int m_Value;
 
-        public LessThanIntChecker(int value)
+        public LessThanIntChecker(int value, Validation validation) : base(validation)
         {
             m_Value = value;
         }

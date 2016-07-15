@@ -10,8 +10,8 @@ namespace ObjectValidator.Checkers
     {
         private IEnumerable<TProperty> m_Value;
 
-        public InListChecker(IEnumerable<TProperty> value)
-            : base(default(TProperty))
+        public InListChecker(IEnumerable<TProperty> value, Validation validation)
+            : base(default(TProperty), validation)
         {
             ParamHelper.CheckParamNull(value, "value", "Can't be null");
             m_Value = value;

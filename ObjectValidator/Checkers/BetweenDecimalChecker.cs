@@ -9,7 +9,7 @@ namespace ObjectValidator.Checkers
         private decimal m_Min;
         private decimal m_Max;
 
-        public BetweenDecimalChecker(decimal min, decimal max)
+        public BetweenDecimalChecker(decimal min, decimal max, Validation validation) : base(validation)
         {
             if (max < min)
             {

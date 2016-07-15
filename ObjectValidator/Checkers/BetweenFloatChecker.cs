@@ -9,7 +9,7 @@ namespace ObjectValidator.Checkers
         private float m_Min;
         private float m_Max;
 
-        public BetweenFloatChecker(float min, float max)
+        public BetweenFloatChecker(float min, float max, Validation validation) : base(validation)
         {
             if (max < min)
             {

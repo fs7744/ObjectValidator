@@ -7,7 +7,7 @@ namespace ObjectValidator.Checkers
     {
         private decimal m_Value;
 
-        public LessThanDecimalChecker(decimal value)
+        public LessThanDecimalChecker(decimal value, Validation validation) : base(validation)
         {
             m_Value = value;
         }

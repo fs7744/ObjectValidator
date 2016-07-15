@@ -9,7 +9,7 @@ namespace ObjectValidator.Checkers
         private int m_Min;
         private int m_Max;
 
-        public LengthChecker(int min, int max)
+        public LengthChecker(int min, int max, Validation validation) : base(validation)
         {
             if (max != -1 && max < min)
             {

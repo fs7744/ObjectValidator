@@ -1,5 +1,7 @@
-﻿using ObjectValidator.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ObjectValidator.Common;
 using ObjectValidator.Entities;
+
 using ObjectValidator.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,13 @@ namespace ObjectValidator.Base
     {
         private List<IValidateRule> m_Rules
            = new List<IValidateRule>();
+
+        private Validation Validation { get; set; }
+
+        public Validator(Validation validation)
+        {
+            Validation = validation;
+        }
 
         public void SetRules(IEnumerable<IValidateRule> rules)
         {
@@ -27,7 +36,7 @@ namespace ObjectValidator.Base
                 context.RuleSetList = list.Where(i => !string.IsNullOrEmpty(i)).Select(i => i.ToUpper()).ToArray();
             }
             var rules = m_Rules.Where(i => context.RuleSelector.CanExecute(i, context)).ToArray();
-            var result = Container.Resolve<IValidateResult>();
+            var result = Validation.Provider.GetService<IValidateResult>();
             if (!rules.IsEmptyOrNull())
             {
                 var tasks = rules.Select(async i => await i.ValidateAsync(context)).ToArray();

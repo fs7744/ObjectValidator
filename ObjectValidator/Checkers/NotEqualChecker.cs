@@ -9,7 +9,7 @@ namespace ObjectValidator.Checkers
     {
         protected TProperty m_EqualEalue;
 
-        public NotEqualChecker(TProperty value)
+        public NotEqualChecker(TProperty value, Validation validation) : base(validation)
         {
             m_EqualEalue = value;
         }

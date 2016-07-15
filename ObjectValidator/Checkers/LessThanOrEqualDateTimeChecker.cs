@@ -8,7 +8,7 @@ namespace ObjectValidator.Checkers
     {
         private DateTime m_Value;
 
-        public LessThanOrEqualDateTimeChecker(DateTime value)
+        public LessThanOrEqualDateTimeChecker(DateTime value, Validation validation) : base(validation)
         {
             m_Value = value;
         }

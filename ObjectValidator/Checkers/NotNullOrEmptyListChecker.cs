@@ -6,6 +6,10 @@ namespace ObjectValidator.Checkers
 {
     public class NotNullOrEmptyListChecker<T, TProperty> : BaseChecker<T, TProperty> where TProperty : IEnumerable
     {
+        public NotNullOrEmptyListChecker(Validation validation) : base(validation)
+        {
+        }
+
         public override Task<IValidateResult> ValidateAsync(IValidateResult result, TProperty value, string name, string error)
         {
             if (value == null || !value.GetEnumerator().MoveNext())

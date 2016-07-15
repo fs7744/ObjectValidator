@@ -11,9 +11,9 @@ namespace ObjectValidator.Checkers
     {
         private Func<TProperty, IEnumerable<ValidateFailure>> m_Func;
 
-        public CustomChecker(Func<TProperty, IEnumerable<ValidateFailure>> func)
+        public CustomChecker(Func<TProperty, IEnumerable<ValidateFailure>> func, Validation validation) : base(validation)
         {
-            ParamHelper.CheckParamNull(func, "func", "Can't be null");
+            ParamHelper.CheckParamNull(func, nameof(func), "Can't be null");
             m_Func = func;
         }
 

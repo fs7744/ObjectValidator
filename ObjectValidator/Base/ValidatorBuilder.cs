@@ -1,4 +1,6 @@
-﻿using ObjectValidator.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ObjectValidator.Common;
+
 using ObjectValidator.Interfaces;
 using System;
 using System.Linq;
@@ -10,14 +12,17 @@ namespace ObjectValidator.Base
     {
         public ObservableCollection<IValidateRuleBuilder> Builders { get; set; }
 
-        public ValidatorBuilder()
+        private Validation Validation { get; set; }
+
+        public ValidatorBuilder(Validation validation)
         {
+            Validation = validation;
             Builders = new ObservableCollection<IValidateRuleBuilder>();
         }
 
         public IValidator Build()
         {
-            var result = Container.Resolve<IValidatorSetter>();
+            var result = Validation.Provider.GetService<IValidatorSetter>();
             result.SetRules(Builders.Select(i => i.Build()));
             return result;
         }
@@ -25,7 +30,7 @@ namespace ObjectValidator.Base
         public IFluentRuleBuilder<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             ParamHelper.CheckParamNull(expression, "expression", "Can't be null");
-            var builder = Container.Resolve<IRuleBuilder<T, TProperty>>();
+            var builder = Validation.Provider.GetService<IRuleBuilder<T, TProperty>>();
             builder.SetValueGetter(expression);
             Builders.Add(builder as IValidateRuleBuilder);
             return builder;

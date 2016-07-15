@@ -9,7 +9,7 @@ namespace ObjectValidator.Checkers
         private double m_Min;
         private double m_Max;
 
-        public BetweenDoubleChecker(double min, double max)
+        public BetweenDoubleChecker(double min, double max, Validation validation) : base(validation)
         {
             if (max < min)
             {

@@ -8,16 +8,16 @@ namespace ObjectValidator.Checkers
     {
         private Regex m_Regex;
 
-        public RegexChecker(Regex regex)
+        public RegexChecker(Regex regex, Validation validation) : base(validation)
         {
             m_Regex = regex;
         }
 
-        public RegexChecker(string pattern, RegexOptions options) : this(new Regex(pattern, options))
+        public RegexChecker(string pattern, RegexOptions options, Validation validation) : this(new Regex(pattern, options), validation)
         {
         }
 
-        public RegexChecker(string pattern) : this(new Regex(pattern))
+        public RegexChecker(string pattern, Validation validation) : this(new Regex(pattern), validation)
         {
         }
 

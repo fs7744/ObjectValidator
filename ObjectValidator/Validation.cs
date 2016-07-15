@@ -1,19 +1,28 @@
-﻿using ObjectValidator.Entities;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
+using System;
 
 namespace ObjectValidator
 {
-    public static class Validation
+    public class Validation 
     {
-        public static IValidatorBuilder<T> NewValidatorBuilder<T>()
+        public IServiceProvider Provider { get; private set; }
+
+        public Validation(IServiceProvider provider)
         {
-            return Container.Resolve<IValidatorBuilder<T>>();
+            Provider = provider;
         }
 
-        public static ValidateContext CreateContext(object validateObject,
+        public IValidatorBuilder<T> NewValidatorBuilder<T>()
+        {
+            return Provider.GetService<IValidatorBuilder<T>>();
+        }
+
+        public ValidateContext CreateContext(object validateObject,
             ValidateOption option = ValidateOption.StopOnFirstFailure, params string[] ruleSetList)
         {
-            var result = Container.Resolve<ValidateContext>();
+            var result = Provider.GetService<ValidateContext>();
             result.Option = option;
             result.RuleSetList = ruleSetList;
             result.ValidateObject = validateObject;

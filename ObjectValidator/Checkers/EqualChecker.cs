@@ -5,7 +5,7 @@ namespace ObjectValidator.Checkers
 {
     public class EqualChecker<T, TProperty> : NotEqualChecker<T, TProperty>
     {
-        public EqualChecker(TProperty value) : base(value)
+        public EqualChecker(TProperty value, Validation validation) : base(value, validation)
         {
         }
 

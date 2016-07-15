@@ -9,7 +9,7 @@ namespace ObjectValidator.Checkers
         private long m_Min;
         private long m_Max;
 
-        public BetweenLongChecker(long min, long max)
+        public BetweenLongChecker(long min, long max, Validation validation) : base(validation)
         {
             if (max < min)
             {

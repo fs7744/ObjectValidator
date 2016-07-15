@@ -7,7 +7,7 @@ namespace ObjectValidator.Checkers
     {
         private long m_Value;
 
-        public GreaterThanOrEqualLongChecker(long value)
+        public GreaterThanOrEqualLongChecker(long value, Validation validation) : base(validation)
         {
             m_Value = value;
         }

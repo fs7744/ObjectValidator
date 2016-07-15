@@ -1,4 +1,6 @@
-﻿using ObjectValidator.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ObjectValidator.Common;
+
 using ObjectValidator.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,10 @@ namespace ObjectValidator.Checkers
     {
         public IValidateRule ValidateRule { get; set; }
 
+        public EachChecker(Validation validation) : base(validation)
+        {
+        }
+
         public override IRuleMessageBuilder<T, IEnumerable<TProperty>> SetValidate(IFluentRuleBuilder<T, IEnumerable<TProperty>> builder)
         {
             ParamHelper.CheckParamNull(builder, "builder", "Can't be null");
@@ -19,7 +25,7 @@ namespace ObjectValidator.Checkers
             {
                 ValidateRule.ValueName = name;
                 var value = build.ValueGetter(context.ValidateObject);
-                var result = Container.Resolve<IValidateResult>();
+                var result = Validation.Provider.GetService<IValidateResult>();
                 var ct = Validation.CreateContext(value, context.Option, context.RuleSetList.ToArray());
                 return await ValidateRule.ValidateAsync(ct);
             };
