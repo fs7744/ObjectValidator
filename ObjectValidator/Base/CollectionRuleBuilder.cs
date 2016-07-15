@@ -20,7 +20,7 @@ namespace ObjectValidator.Base
             var rule = Container.Resolve<CollectionValidateRule>();
             rule.ValueName = ValueName;
             rule.Error = Error;
-            rule.ValidateFunc = ValidateFunc;
+            rule.ValidateAsyncFunc = ValidateAsyncFunc;
             rule.Condition = Condition;
             rule.RuleSet = RuleSet;
             EachChecker.ValidateRule = rule;

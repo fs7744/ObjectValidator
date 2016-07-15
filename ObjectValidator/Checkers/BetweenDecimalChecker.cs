@@ -1,5 +1,6 @@
 ﻿using ObjectValidator.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -19,14 +20,14 @@ namespace ObjectValidator.Checkers
             m_Max = max;
         }
 
-        public override IValidateResult Validate(IValidateResult result, decimal value, string name, string error)
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, decimal value, string name, string error)
         {
             if (m_Min >= value || m_Max <= value)
             {
                 AddFailure(result, name, value, error ??
                     string.Format("The value is not between {0} and {1}", m_Min, m_Max));
             }
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ObjectValidator.Interfaces;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -11,7 +12,7 @@ namespace ObjectValidator.Checkers
             m_Value = value;
         }
 
-        public override IValidateResult Validate(IValidateResult result, float value, string name, string error)
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, float value, string name, string error)
         {
             if (value <= m_Value)
             {
@@ -19,7 +20,7 @@ namespace ObjectValidator.Checkers
                     error ?? string.Format("The value must greater than {0}", m_Value));
             }
 
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

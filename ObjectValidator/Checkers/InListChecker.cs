@@ -2,6 +2,7 @@
 using ObjectValidator.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -16,13 +17,13 @@ namespace ObjectValidator.Checkers
             m_Value = value;
         }
 
-        public override IValidateResult Validate(IValidateResult result, TProperty value, string name, string error)
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, TProperty value, string name, string error)
         {
             if (!m_Value.Any(i => Compare(i, value)))
             {
                 AddFailure(result, name, value, error ?? "Not in data array");
             }
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ObjectValidator.Common;
 using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -10,11 +11,11 @@ namespace ObjectValidator.Checkers
         {
             ParamHelper.CheckParamNull(builder, "builder", "Can't be null");
             var build = builder as IRuleBuilder<T, TProperty>;
-            build.ValidateFunc = (context, name, error) =>
+            build.ValidateAsyncFunc = async (context, name, error) =>
             {
                 var value = build.ValueGetter(context.ValidateObject);
                 var result = Container.Resolve<IValidateResult>();
-                return Validate(result, value, name, error);
+                return await ValidateAsync(result, value, name, error);
             };
             return build as IRuleMessageBuilder<T, TProperty>;
         }
@@ -34,6 +35,6 @@ namespace ObjectValidator.Checkers
             });
         }
 
-        public abstract IValidateResult Validate(IValidateResult result, TProperty value, string name, string error);
+        public abstract Task<IValidateResult> ValidateAsync(IValidateResult result, TProperty value, string name, string error);
     }
 }

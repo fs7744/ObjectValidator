@@ -1,5 +1,6 @@
 ﻿using ObjectValidator.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -9,13 +10,13 @@ namespace ObjectValidator.Checkers
         {
         }
 
-        public override IValidateResult Validate(IValidateResult result, TProperty value, string name, string error)
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, TProperty value, string name, string error)
         {
             if (m_MustBeTrue(value))
             {
                 AddFailure(result, name, value, error);
             }
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

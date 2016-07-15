@@ -1,5 +1,6 @@
 ﻿using ObjectValidator.Interfaces;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -20,13 +21,13 @@ namespace ObjectValidator.Checkers
         {
         }
 
-        public override IValidateResult Validate(IValidateResult result, string value, string name, string error)
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, string value, string name, string error)
         {
             if (!string.IsNullOrEmpty(value) && m_Regex.IsMatch(value))
             {
                 AddFailure(result, name, value, error ?? "The value must be not match regex");
             }
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

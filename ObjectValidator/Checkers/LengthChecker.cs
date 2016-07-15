@@ -1,5 +1,6 @@
 ﻿using ObjectValidator.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -19,7 +20,7 @@ namespace ObjectValidator.Checkers
             m_Max = max;
         }
 
-        public override IValidateResult Validate(IValidateResult result, string value, string name, string error)
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, string value, string name, string error)
         {
             var len = string.IsNullOrEmpty(value) ? 0 : value.Length;
             if ((m_Max != -1 && m_Max < len) || m_Min > len)
@@ -27,7 +28,7 @@ namespace ObjectValidator.Checkers
                 AddFailure(result, name, value,
                     error ?? string.Format("The length {0} is not between {1} and {2}", len, m_Min, m_Max));
             }
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

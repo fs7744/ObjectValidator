@@ -18,7 +18,7 @@ namespace ObjectValidator.Base
             m_Rules.AddRange(rules);
         }
 
-        public IValidateResult Validate(ValidateContext context)
+        public Task<IValidateResult> ValidateAsync(ValidateContext context)
         {
             ParamHelper.CheckParamNull(context, "context", "Can't be null");
             var list = context.RuleSetList;
@@ -30,15 +30,13 @@ namespace ObjectValidator.Base
             var result = Container.Resolve<IValidateResult>();
             if (!rules.IsEmptyOrNull())
             {
-                var tasks = rules.Select(i => Task.Factory.StartNew(() => i.Validate(context))).ToArray();
-                Task.WaitAll(tasks);
-
+                var tasks = rules.Select(async i => await i.ValidateAsync(context)).ToArray();
                 var failures = tasks.Where(i => i.IsCompleted)
                                     .SelectMany(i => i.Result.Failures);
                 result.Merge(failures);
             }
 
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

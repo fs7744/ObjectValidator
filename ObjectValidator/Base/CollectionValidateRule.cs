@@ -3,12 +3,13 @@ using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Base
 {
     public class CollectionValidateRule : ValidateRule
     {
-        public override IValidateResult Validate(ValidateContext context)
+        public override Task<IValidateResult> ValidateAsync(ValidateContext context)
         {
             ParamHelper.CheckParamNull(context, "context", "Can't be null");
             IValidateResult result = Container.Resolve<IValidateResult>();
@@ -18,7 +19,7 @@ namespace ObjectValidator.Base
                 if (list != null)
                     ValidateElementList(context, result, list);
             }
-            return result;
+            return Task.FromResult(result);
         }
 
         private void ValidateElementList(ValidateContext context, IValidateResult result, IEnumerable list)
@@ -50,9 +51,9 @@ namespace ObjectValidator.Base
             }
         }
 
-        private void ValidateNextRule(ValidateContext context, IValidateResult result, int index, IValidateRule rule)
+        private async void ValidateNextRule(ValidateContext context, IValidateResult result, int index, IValidateRule rule)
         {
-            var nextResult = rule.Validate(context);
+            var nextResult = await rule.ValidateAsync(context);
             if (!nextResult.IsValid)
             {
                 foreach (var failure in nextResult.Failures)

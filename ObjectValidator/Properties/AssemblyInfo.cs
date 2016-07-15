@@ -1,28 +1,19 @@
 ﻿using System.Reflection;
-using System.Resources;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
-// 有关程序集的一般信息由以下
-// 控制。更改这些特性值可修改
-// 与程序集关联的信息。
-[assembly: AssemblyTitle("ObjectValidator")]
-[assembly: AssemblyDescription("Author: Vicotr.X.Qu")]
+// General Information about an assembly is controlled through the following
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ObjectValidator")]
-[assembly: AssemblyCopyright("版权所有(C) Vicotr.X.Qu 2015-2016")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-[assembly: NeutralResourcesLanguage("zh-Hans")]
 
-// 程序集的版本信息由下列四个值组成:
-//
-//      主版本
-//      次版本
-//      生成号
-//      修订号
-//
-//可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
-// 方法是按如下所示使用“*”: :
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.4.4")]
-[assembly: AssemblyFileVersion("0.0.4.4")]
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
+
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("41b65a45-8e39-49b0-940b-6cea1483a91c")]

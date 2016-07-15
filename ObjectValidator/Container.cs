@@ -1,4 +1,4 @@
-﻿using Autofac;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ObjectValidator.Base;
 using ObjectValidator.Checkers;
 using ObjectValidator.Common;
@@ -10,45 +10,36 @@ namespace ObjectValidator
 {
     public static class Container
     {
-        public static ILifetimeScope CurrentScope { get; set; }
+        public static IServiceProvider CurrentScope { get; set; }
 
-        public static void Init(Action<ContainerBuilder> action)
+        public static void Init(Action<IServiceCollection> action)
         {
             ParamHelper.CheckParamNull(action, "action", "Can't be null");
-            Clear();
-            var builder = new ContainerBuilder();
+            var builder = new ServiceCollection();
             action(builder);
-            var container = builder.Build();
-            CurrentScope = container.BeginLifetimeScope();
+            CurrentScope = builder.BuildServiceProvider();
         }
 
         public static void Init()
         {
             Init(builder =>
             {
-                builder.RegisterType<RuleSelector>().As<IRuleSelector>().SingleInstance();
-                builder.RegisterGeneric(typeof(RuleBuilder<,>)).As(typeof(IRuleBuilder<,>)).InstancePerDependency();
-                builder.Register(c => new ValidateContext() { RuleSelector = c.Resolve<IRuleSelector>() });
-                builder.RegisterType<ValidateRule>().As<IValidateRule>().InstancePerDependency();
-                builder.RegisterType<ValidateResult>().As<IValidateResult>().InstancePerDependency();
-                builder.RegisterGeneric(typeof(ValidatorBuilder<>)).As(typeof(IValidatorBuilder<>)).InstancePerDependency();
-                builder.RegisterType<Validator>().As<IValidatorSetter>().InstancePerDependency();
-                builder.RegisterType<CollectionValidateRule>().As<CollectionValidateRule>().InstancePerDependency();
-                builder.RegisterGeneric(typeof(EachChecker<,>)).As(typeof(EachChecker<,>)).InstancePerDependency();
-                builder.RegisterGeneric(typeof(CollectionRuleBuilder<,>)).As(typeof(CollectionRuleBuilder<,>)).InstancePerDependency();
+                builder.AddSingleton<IRuleSelector, RuleSelector>();
+                builder.AddTransient(typeof(IRuleBuilder<,>), typeof(RuleBuilder<,>));
+                builder.AddTransient(c => new ValidateContext() { RuleSelector = c.GetService<IRuleSelector>() });
+                builder.AddTransient<IValidateRule, ValidateRule>();
+                builder.AddTransient<IValidateResult, ValidateResult>();
+                builder.AddTransient(typeof(IValidatorBuilder<>), typeof(ValidatorBuilder<>));
+                builder.AddTransient<IValidatorSetter, Validator>();
+                builder.AddTransient<CollectionValidateRule>();
+                builder.AddTransient(typeof(EachChecker<,>));
+                builder.AddTransient(typeof(CollectionRuleBuilder<,>));
             });
-        }
-
-        public static void Clear()
-        {
-            var scope = CurrentScope;
-            if (scope != null)
-                scope.Dispose();
         }
 
         public static T Resolve<T>()
         {
-            return CurrentScope.Resolve<T>();
+            return CurrentScope.GetService<T>();
         }
     }
 }

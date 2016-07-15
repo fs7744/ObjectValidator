@@ -3,6 +3,7 @@ using ObjectValidator.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -14,18 +15,18 @@ namespace ObjectValidator.Checkers
         {
             ParamHelper.CheckParamNull(builder, "builder", "Can't be null");
             var build = builder as IRuleValueGetterBuilder<T, IEnumerable<TProperty>>;
-            build.ValidateFunc = (context, name, error) =>
+            build.ValidateAsyncFunc = async (context, name, error) =>
             {
                 ValidateRule.ValueName = name;
                 var value = build.ValueGetter(context.ValidateObject);
                 var result = Container.Resolve<IValidateResult>();
                 var ct = Validation.CreateContext(value, context.Option, context.RuleSetList.ToArray());
-                return ValidateRule.Validate(ct);
+                return await ValidateRule.ValidateAsync(ct);
             };
             return build as IRuleMessageBuilder<T, IEnumerable<TProperty>>;
         }
 
-        public override IValidateResult Validate(IValidateResult result, IEnumerable<TProperty> value, string name, string error)
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, IEnumerable<TProperty> value, string name, string error)
         {
             throw new NotImplementedException();
         }

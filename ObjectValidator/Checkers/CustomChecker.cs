@@ -3,6 +3,7 @@ using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Checkers
 {
@@ -16,12 +17,12 @@ namespace ObjectValidator.Checkers
             m_Func = func;
         }
 
-        public override IValidateResult Validate(IValidateResult result, TProperty value, string name, string error)
+        public override Task<IValidateResult> ValidateAsync(IValidateResult result, TProperty value, string name, string error)
         {
             var res = m_Func(value);
             if (res != null)
                 result.Merge(res);
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

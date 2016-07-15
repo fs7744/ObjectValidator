@@ -3,6 +3,7 @@ using ObjectValidator.Entities;
 using ObjectValidator.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Base
 {
@@ -23,16 +24,16 @@ namespace ObjectValidator.Base
 
         public Func<ValidateContext, bool> Condition { get; set; }
 
-        public Func<ValidateContext, string, string, IValidateResult> ValidateFunc { get; set; }
+        public Func<ValidateContext, string, string, Task<IValidateResult>> ValidateAsyncFunc { get; set; }
 
-        public virtual IValidateResult Validate(ValidateContext context)
+        public async virtual Task<IValidateResult> ValidateAsync(ValidateContext context)
         {
-            ParamHelper.CheckParamNull(ValidateFunc, "ValidateFunc", "Can't be null");
-            ParamHelper.CheckParamNull(context, "context", "Can't be null");
+            ParamHelper.CheckParamNull(ValidateAsyncFunc, nameof(ValidateAsyncFunc), "Can't be null");
+            ParamHelper.CheckParamNull(context, nameof(context), "Can't be null");
             IValidateResult result = null;
             if (Condition == null || Condition(context))
             {
-                result = ValidateByFunc(context);
+                result = await ValidateAsynByFunc(context);
             }
             else
             {
@@ -41,9 +42,9 @@ namespace ObjectValidator.Base
             return result;
         }
 
-        public IValidateResult ValidateByFunc(ValidateContext context)
+        public async Task<IValidateResult> ValidateAsynByFunc(ValidateContext context)
         {
-            IValidateResult result = ValidateFunc(context, ValueName, Error);
+            IValidateResult result = await ValidateAsyncFunc(context, ValueName, Error);
             if (NextRuleList.IsEmptyOrNull() || (!result.IsValid && context.Option != ValidateOption.Continue)) return result;
 
             ValidateNextRuleList(context, result);
@@ -51,13 +52,13 @@ namespace ObjectValidator.Base
             return result;
         }
 
-        private void ValidateNextRuleList(ValidateContext context, IValidateResult result)
+        private async void ValidateNextRuleList(ValidateContext context, IValidateResult result)
         {
             foreach (var nextRule in NextRuleList)
             {
                 if (result.IsValid || context.Option == ValidateOption.Continue)
                 {
-                    var nextResult = nextRule.Validate(context);
+                    var nextResult = await nextRule.ValidateAsync(context);
                     result.Merge(nextResult.Failures);
                 }
                 else

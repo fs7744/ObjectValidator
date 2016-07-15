@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ObjectValidator.Base
 {
@@ -28,7 +29,7 @@ namespace ObjectValidator.Base
 
         public Func<ValidateContext, bool> Condition { get; set; }
 
-        public Func<ValidateContext, string, string, IValidateResult> ValidateFunc { get; set; }
+        public Func<ValidateContext, string, string, Task<IValidateResult>> ValidateAsyncFunc { get; set; }
 
         public Expression<Func<T, TValue>> ValueExpression { get; protected set; }
 
@@ -76,7 +77,7 @@ namespace ObjectValidator.Base
             var rule = Container.Resolve<IValidateRule>();
             rule.ValueName = ValueName;
             rule.Error = Error;
-            rule.ValidateFunc = ValidateFunc;
+            rule.ValidateAsyncFunc = ValidateAsyncFunc;
             rule.Condition = Condition;
             rule.RuleSet = RuleSet;
             rule.NextRuleList = NextRuleBuilderList.Where(i => i != null).Select(i => i.Build()).ToList();
