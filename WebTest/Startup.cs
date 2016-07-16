@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ObjectValidator;
 
 namespace WebTest
 {
@@ -24,7 +25,9 @@ namespace WebTest
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddMemoryCache();
             services.AddMvc();
+            services.AddObjectValidator();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

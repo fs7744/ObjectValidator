@@ -5,38 +5,39 @@ C# Object Validator, learn from FluentValidation
 
 ```Csharp
 
-Container.Init(); // Only need init in your app once
-
-var builder = Validation.NewValidatorBuilder<Student>();
-builder.RuleSet("A", b =>
+public void ConfigureServices(IServiceCollection services)
 {
-    b.RuleFor(i => i.Age)
-            .Must(i => i >= 0 && i <= 18)
-            .OverrideName("student age")
-            .OverrideError("not student")
-        .ThenRuleFor(i => i.Name)
-            .Must(i => !string.IsNullOrWhiteSpace(i))
-            .OverrideName("student name")
-            .OverrideError("no name");
-});
-var v = builder.Build();
+	// Add framework services.
+	services.AddMemoryCache();
+	services.AddMvc();
+	services.AddObjectValidator();
+}
 
-var student = new Student() { Age = 13, Name = "v" };
-var context = Validation.CreateContext(student);
-var result = v.Validate(context);
-Assert.IsNotNull(result);
-Assert.True(result.IsValid);
-Assert.True(result.Failures.Count == 0);
+[Route("api/[controller]")]
+public class ValuesController : Controller
+{
+	private Validation _Validation;
+	private IMemoryCache _Cache;
+	public ValuesController(Validation validation, IMemoryCache cache)
+	{
+		_Cache = cache;
+		_Validation = validation;
+	}
 
-student = new Student() { Age = 23, Name = string.Empty };
-context = Validation.CreateContext(student);
-result = v.Validate(context);
-Assert.IsNotNull(result);
-Assert.False(result.IsValid);
-Assert.True(result.Failures.Count == 1);
-Assert.AreEqual(23, result.Failures[0].Value);
-Assert.AreEqual("student age", result.Failures[0].Name);
-Assert.AreEqual("not student", result.Failures[0].Error);
+	// GET api/values/5
+	[HttpGet("{id}")]
+	public async Task<IValidateResult> Get(int id)
+	{
+		var validator = _Cache.GetOrCreate("test", j =>
+		{
+			var builder = _Validation.NewValidatorBuilder<Student>();
+			builder.RuleFor(i => i.ID).GreaterThan(0);
+			return builder.Build();
+		});
+		
+		return await validator.ValidateAsync(_Validation.CreateContext(new Student() { ID = id }));
+	}
+}
 ```
 ## Nuget
 
