@@ -37,7 +37,7 @@ namespace ObjectValidator.Base
             IValidateResult result = null;
             if (Condition == null || Condition(context))
             {
-                result = await ValidateAsynByFunc(context);
+                result = await ValidateAsyncByFunc(context);
             }
             else
             {
@@ -46,7 +46,7 @@ namespace ObjectValidator.Base
             return result;
         }
 
-        public async Task<IValidateResult> ValidateAsynByFunc(ValidateContext context)
+        public async Task<IValidateResult> ValidateAsyncByFunc(ValidateContext context)
         {
             IValidateResult result = await ValidateAsyncFunc(context, ValueName, Error);
             if (NextRuleList.IsEmptyOrNull() || (!result.IsValid && context.Option != ValidateOption.Continue)) return result;

@@ -58,7 +58,7 @@ namespace ObjectValidator
 
         public static IRuleMessageBuilder<T, TProperty> NotNull<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder)
         {
-            return new NotNullChecker<T, TProperty>( builder.Validation).SetValidate(builder);
+            return new NotNullChecker<T, TProperty>(builder.Validation).SetValidate(builder);
         }
 
         public static IRuleMessageBuilder<T, TProperty> NotEqual<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder, TProperty value)
@@ -113,12 +113,12 @@ namespace ObjectValidator
 
         public static IRuleMessageBuilder<T, string> NotNullOrEmpty<T>(this IFluentRuleBuilder<T, string> builder)
         {
-            return new NotNullOrEmptyStringChecker<T>( builder.Validation).SetValidate(builder);
+            return new NotNullOrEmptyStringChecker<T>(builder.Validation).SetValidate(builder);
         }
 
         public static IRuleMessageBuilder<T, string> NotNullOrWhiteSpace<T>(this IFluentRuleBuilder<T, string> builder)
         {
-            return new NotNullOrWhiteSpaceChecker<T>( builder.Validation).SetValidate(builder);
+            return new NotNullOrWhiteSpaceChecker<T>(builder.Validation).SetValidate(builder);
         }
 
         public static IRuleMessageBuilder<T, float> Between<T>(this IFluentRuleBuilder<T, float> builder, float min, float max)
@@ -178,7 +178,7 @@ namespace ObjectValidator
 
         public static IRuleMessageBuilder<T, TProperty> NotNullOrEmpty<T, TProperty>(this IFluentRuleBuilder<T, TProperty> builder) where TProperty : IEnumerable
         {
-            return new NotNullOrEmptyListChecker<T, TProperty>( builder.Validation).SetValidate(builder);
+            return new NotNullOrEmptyListChecker<T, TProperty>(builder.Validation).SetValidate(builder);
         }
 
         public static IRuleMessageBuilder<T, float> GreaterThanOrEqual<T>(this IFluentRuleBuilder<T, float> builder, float value)

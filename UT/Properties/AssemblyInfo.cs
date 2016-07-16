@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ObjectValidator")]
+[assembly: AssemblyProduct("UT")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -15,4 +15,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("41b65a45-8e39-49b0-940b-6cea1483a91c")]
+[assembly: Guid("6d31659f-5ef4-4699-a02b-8943528e4f2c")]

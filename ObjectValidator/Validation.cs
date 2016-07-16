@@ -5,7 +5,7 @@ using System;
 
 namespace ObjectValidator
 {
-    public class Validation 
+    public class Validation
     {
         public IServiceProvider Provider { get; private set; }
 
