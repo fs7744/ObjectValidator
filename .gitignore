@@ -31,3 +31,4 @@ project.lock.json
 /UT/obj/Debug/netcoreapp1.0
 /ObjectValidator/obj/Debug/netcoreapp1.0
 /WebTest/obj/Debug/netcoreapp1.0
+/ObjectValidator/obj/Release/netcoreapp1.0
